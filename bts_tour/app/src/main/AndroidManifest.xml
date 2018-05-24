@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="fs.sdvbs.bts_tour">
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/app_theme">
+        <activity
+            android:name=".splash_screen"
+            android:theme="@style/splash_theme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".login_activity"
+            android:label="@string/title_activity_login" />
+        <activity
+            android:name=".swipe_main"
+            android:label="@string/title_activity_swipe_main"
+            android:parentActivityName=".login_activity"
+            android:theme="@style/app_theme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="fs.sdvbs.bts_tour.login_activity" />
+        </activity>
+        <activity
+            android:name=".nav_main"
+            android:label="@string/title_activity_nav_main"
+            android:parentActivityName=".login_activity"
+            android:theme="@style/app_theme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="fs.sdvbs.bts_tour.login_activity" />
+        </activity>
+        <activity
+            android:name=".basic_main"
+            android:label="@string/title_activity_basic_main"
+            android:parentActivityName=".login_activity"
+            android:theme="@style/app_theme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="fs.sdvbs.bts_tour.login_activity" />
+        </activity>
+        <activity
+            android:name=".nav_training"
+            android:label="@string/title_activity_training"
+            android:theme="@style/app_theme.NoActionBar" />
+        <activity
+            android:name=".nav_maps"
+            android:label="@string/title_activity_nav_maps"
+            android:theme="@style/app_theme.NoActionBar" />
+        <activity
+            android:name=".nav_schedule"
+            android:label="@string/title_activity_nav_schedule"
+            android:theme="@style/app_theme.NoActionBar" />
+        <activity
+            android:name=".nav_help"
+            android:label="@string/title_activity_nav_help"
+            android:theme="@style/app_theme.NoActionBar" />
+        <activity
+            android:name=".nav_contact"
+            android:label="@string/title_activity_nav_contact"
+            android:theme="@style/app_theme.NoActionBar" />
+        <activity
+            android:name=".nav_progress"
+            android:label="@string/title_activity_nav_progress"
+            android:theme="@style/app_theme.NoActionBar" />
+        <activity
+            android:name=".nav_quiz"
+            android:label="@string/title_activity_nav_quiz"
+            android:theme="@style/app_theme.NoActionBar" />
+        <activity
+            android:name=".nav_script"
+            android:label="@string/title_activity_nav_script"
+            android:theme="@style/app_theme.NoActionBar" />
+        <activity
+            android:name=".quiz_main"
+            android:label="@string/title_activity_quiz"
+            android:theme="@style/app_theme.NoActionBar"></activity>
+    </application>
+
+</manifest>

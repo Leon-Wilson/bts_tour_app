@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/quiz_template"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="fs.sdvbs.bts_tour.quiz_main"
+    tools:showIn="@layout/activity_quiz">
+
+    <include
+        android:id="@+id/quiz_multi_choice"
+        layout='@layout/multi_choice_question_layout'></include>
+
+    <include
+        android:id="@+id/quiz_multi_answer"
+        layout='@layout/multi_select_question_layout'></include>
+
+    <include
+        android:id="@+id/quiz_fill_in"
+        layout='@layout/fill_in_question_layout'></include>
+</android.support.constraint.ConstraintLayout>

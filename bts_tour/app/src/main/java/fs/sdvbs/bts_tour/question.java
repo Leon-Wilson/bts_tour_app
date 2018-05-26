@@ -9,6 +9,7 @@ public interface question {
     public question_types getType();
     public String getQuestionText();
     public boolean isCorrect();
+    public void setAlreadyCorrect(boolean bool_);
     public boolean alreadyCorrect();
 
     //THESE METHODS WILL ACT DIFFERENTLY FOR FILL IN BLANK

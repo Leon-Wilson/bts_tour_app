@@ -73,11 +73,15 @@ public class quiz_main extends AppCompatActivity {
         //TEST QUIZ
         quiz test_quiz;
 
-        question[] test_questions = new question[2];
+        question[] test_questions = new question[4];
 
         answer[] q1_answers = new answer[4];
 
         answer[] q2_answers = new answer[4];
+
+        answer[] q3_answers = new answer[4];
+
+        answer[] q4_answers = new answer[4];
 
         //CREATE ANSWERS
         answer q1_answer_1 = new answer("A",false);
@@ -90,6 +94,16 @@ public class quiz_main extends AppCompatActivity {
         answer q2_answer_3 = new answer("G",true);
         answer q2_answer_4 = new answer("H",false);
 
+        answer q3_answer_1 = new answer("yes",true);
+        answer q3_answer_2 = new answer("yes",true);
+        answer q3_answer_3 = new answer("yes",true);
+        answer q3_answer_4 = new answer("no",false);
+
+        answer q4_answer_1 = new answer("no",false);
+        answer q4_answer_2 = new answer("no",false);
+        answer q4_answer_3 = new answer("yes",true);
+        answer q4_answer_4 = new answer("yes",true);
+
         //SET ANSWERS
         q1_answers[0] = q1_answer_1;
         q1_answers[1] = q1_answer_2;
@@ -101,9 +115,21 @@ public class quiz_main extends AppCompatActivity {
         q2_answers[2] = q2_answer_3;
         q2_answers[3] = q2_answer_4;
 
+        q3_answers[0] = q3_answer_1;
+        q3_answers[1] = q3_answer_2;
+        q3_answers[2] = q3_answer_3;
+        q3_answers[3] = q3_answer_4;
+
+        q4_answers[0] = q4_answer_1;
+        q4_answers[1] = q4_answer_2;
+        q4_answers[2] = q4_answer_3;
+        q4_answers[3] = q4_answer_4;
+
         //ADD TO QUESTION SET
         test_questions[0] = new multiple_choice("This is a test question, please pick 'D':",q1_answers);
         test_questions[1] = new multiple_choice("This is another question:",q2_answers);
+        test_questions[2] = new multi_select("This is a multi selection question", q3_answers);
+        test_questions[3] = new multi_select("This is another multi selection question", q4_answers);
 
         test_quiz = new quiz(test_questions);
 

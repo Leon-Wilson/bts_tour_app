@@ -40,34 +40,45 @@ public class multiple_choice implements question {
 
     }
 
+    @Override
     public question_types getType()
     {
         return question_type;
     }
 
+    @Override
     public String getQuestionText() { return question_text; }
 
+    @Override
     public boolean isCorrect()
     {
         if(player_choice == correct_answer)
         {
-            already_answered_correctly = true;
             return true;
         }
 
         return false;
     }
 
+    @Override
+    public void setAlreadyCorrect(boolean bool_)
+    {
+        already_answered_correctly = bool_;
+    }
+
+    @Override
     public boolean alreadyCorrect()
     {
         return already_answered_correctly;
     }
 
+    @Override
     public answer[] getAnswers()
     {
         return answer_pool;
     }
-    
+
+    @Override
     public answer getAnswer()
     {
         return answer_pool[correct_answer];

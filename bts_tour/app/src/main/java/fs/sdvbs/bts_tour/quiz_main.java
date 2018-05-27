@@ -35,6 +35,7 @@ public class quiz_main extends AppCompatActivity {
     When checking the answers for a multi-select question the if statement seems to trigger a false
     on the final iteration of the loop. It may be related to the way I am checking the selected answers
     against the question's answers.
+        UPDATE: The bug seems to occur whenever the two booleans are false.
 
     //*/
     //FrameLayout test = (FrameLayout) findViewById(R.id.quiz_template);
@@ -102,7 +103,7 @@ public class quiz_main extends AppCompatActivity {
 
         answer q3_answer_1 = new answer("yes",true);
         answer q3_answer_2 = new answer("yes",true);
-        answer q3_answer_3 = new answer("yes",true);
+        answer q3_answer_3 = new answer("no",false);
         answer q3_answer_4 = new answer("no",false);
 
         answer q4_answer_1 = new answer("no",false);
@@ -132,10 +133,10 @@ public class quiz_main extends AppCompatActivity {
         q4_answers[3] = q4_answer_4;
 
         //ADD TO QUESTION SET
-        test_questions[0] = new multiple_choice("This is a test question, please pick 'D':",q1_answers);
-        test_questions[1] = new multiple_choice("This is another question:",q2_answers);
-        test_questions[2] = new multi_select("This is a multi selection question", q3_answers);
-        test_questions[3] = new multi_select("This is another multi selection question", q4_answers);
+        test_questions[0] = new multiple_choice("Q1.This is a test question, please pick 'D':",q1_answers);
+        test_questions[1] = new multiple_choice("Q2.This is another question:",q2_answers);
+        test_questions[2] = new multi_select("Q3.This is a multi selection question", q3_answers);
+        test_questions[3] = new multi_select("Q4.This is another multi selection question", q4_answers);
 
         test_quiz = new quiz(test_questions);
 

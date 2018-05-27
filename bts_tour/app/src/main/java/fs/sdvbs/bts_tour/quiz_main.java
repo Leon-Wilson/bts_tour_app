@@ -16,7 +16,7 @@ import android.widget.TextView;
 public class quiz_main extends AppCompatActivity {
 
     /*//
-    LW_BUG_1: Included layout cause crash when trying to find ID
+    LW_BUG_1: Included layout cause crash when trying to find ID.
     Can't access the view that were added using the include tag
 
         SOLUTION: The includes didn't have IDs attached to them
@@ -31,7 +31,10 @@ public class quiz_main extends AppCompatActivity {
         It is not possible(?) or safe to access and initialize a variable that requires an id
         because that id isn't pointing to anything yet.
 
-
+    LW_BUG_3: Final iteration of loop returns false positive when checking multiple selection question
+    When checking the answers for a multi-select question the if statement seems to trigger a false
+    on the final iteration of the loop. It may be related to the way I am checking the selected answers
+    against the question's answers.
 
     //*/
     //FrameLayout test = (FrameLayout) findViewById(R.id.quiz_template);
@@ -51,6 +54,9 @@ public class quiz_main extends AppCompatActivity {
     Button ma_choice_2;
     Button ma_choice_3;
     Button ma_choice_4;
+    Button ma_check_button;
+
+    boolean[] selected = new boolean[4];
 
     //FILL IN
     View fill_in;
@@ -160,6 +166,15 @@ public class quiz_main extends AppCompatActivity {
                 break;
             case multiple_answer:
                 multi_answer.setVisibility(View.VISIBLE);
+
+                //SET QUESTION TEXT
+                ma_question.setText(current_quiz.questions[current_question].getQuestionText());
+
+                //SET ANSWER TEXT
+                ma_choice_1.setText(current_quiz.questions[current_question].getAnswers()[0].answer_text);
+                ma_choice_2.setText(current_quiz.questions[current_question].getAnswers()[1].answer_text);
+                ma_choice_3.setText(current_quiz.questions[current_question].getAnswers()[2].answer_text);
+                ma_choice_4.setText(current_quiz.questions[current_question].getAnswers()[3].answer_text);
                 break;
             case fill_in_blank:
                 fill_in.setVisibility(View.VISIBLE);
@@ -192,6 +207,14 @@ public class quiz_main extends AppCompatActivity {
                 break;
             case multiple_answer:
                 multi_answer.setVisibility(View.VISIBLE);
+                //SET QUESTION TEXT
+                ma_question.setText(current_quiz.questions[current_question].getQuestionText());
+
+                //SET ANSWER TEXT
+                ma_choice_1.setText(current_quiz.questions[current_question].getAnswers()[0].answer_text);
+                ma_choice_2.setText(current_quiz.questions[current_question].getAnswers()[1].answer_text);
+                ma_choice_3.setText(current_quiz.questions[current_question].getAnswers()[2].answer_text);
+                ma_choice_4.setText(current_quiz.questions[current_question].getAnswers()[3].answer_text);
                 break;
             case fill_in_blank:
                 fill_in.setVisibility(View.VISIBLE);
@@ -207,6 +230,12 @@ public class quiz_main extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //INITIALIZE selected values to (-1) as null case.
+        for(int i = 0; i < selected.length; i++)
+        {
+            selected[i] = false;
+        }
+
         //MULTI_CHOICE
         multi_choice = (View) findViewById(R.id.quiz_multi_choice);
         mc_question = (TextView) multi_choice.findViewById(R.id.mc_question_text);
@@ -217,11 +246,12 @@ public class quiz_main extends AppCompatActivity {
 
         //MULTI_ANSWER
         multi_answer = (View) findViewById(R.id.quiz_multi_answer);
-        ma_question = (TextView) multi_answer.findViewById(R.id.mc_question_text);
+        ma_question = (TextView) multi_answer.findViewById(R.id.ma_question_text);
         ma_choice_1 = (Button) multi_answer.findViewById(R.id.ma_choice_1);
         ma_choice_2 = (Button) multi_answer.findViewById(R.id.ma_choice_2);
         ma_choice_3 = (Button) multi_answer.findViewById(R.id.ma_choice_3);
         ma_choice_4 = (Button) multi_answer.findViewById(R.id.ma_choice_4);
+        ma_check_button = (Button) multi_answer.findViewById((R.id.ma_check_button));
 
         //FILL_IN
         fill_in = (View) findViewById(R.id.quiz_fill_in);
@@ -324,6 +354,100 @@ public class quiz_main extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(current_quiz.questions[current_question].getAnswers()[3].isCorrect())
+                {
+                    Snackbar.make(view, "RIGHT", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+                else
+                {
+                    Snackbar.make(view, "WRONG", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+
+                if(current_question < current_quiz.questions.length - 1)
+                {
+                    current_question += 1;
+                    nextQuestion(current_question,current_quiz);
+                }
+            }
+        });
+
+
+        //MULTIPLE ANSWER
+        ma_choice_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(selected[0])
+                {
+                    selected[0] = false;
+                }
+                else
+                {
+                    selected[0] = true;
+                }
+
+            }
+        });
+
+        ma_choice_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(selected[1])
+                {
+                    selected[1] = false;
+                }
+                else
+                {
+                    selected[1] = true;
+                }
+
+            }
+        });
+
+        ma_choice_3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(selected[2])
+                {
+                    selected[2] = false;
+                }
+                else
+                {
+                    selected[2] = true;
+                }
+
+            }
+        });
+
+        ma_choice_4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(selected[3])
+                {
+                    selected[3] = false;
+                }
+                else
+                {
+                    selected[3] = true;
+                }
+
+            }
+        });
+
+        ma_check_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean correct = true;
+                for(int i = 0; i < selected.length;i++)
+                {
+                    //SOMETHING STRANGE IS HAPPENING HERE ON THE FINAL ITERATION
+                    if(!(selected[i] && current_quiz.questions[current_question].getAnswers()[i].isCorrect()))
+                    {
+                        correct = false;
+                    }
+                }
+
+                if(correct)
                 {
                     Snackbar.make(view, "RIGHT", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();

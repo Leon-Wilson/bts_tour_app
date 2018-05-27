@@ -14,8 +14,10 @@ public class multi_select implements question {
 
     int player_choice;
     int correct_answers = 0;
-    int[] correct_index_nums;
-    int[] selected_index_nums;
+
+    //May not need these two variables if I use a boolean array in quiz_main (can check the boolean array and the isCorrect() of the answer itself
+    //int[] correct_index_nums;
+    //int[] selected_index_nums;
 
     boolean already_answered_correctly = false;
 
@@ -32,17 +34,7 @@ public class multi_select implements question {
             }
         }
 
-        correct_index_nums = new int[correct_answers];
 
-        int current_index = 0;
-        for(int i = 0; i < correct_index_nums.length; i++)
-        {
-            if(answer_pool[i].isCorrect())
-            {
-                correct_index_nums[current_index] = i;
-                current_index++;
-            }
-        }
     }
 
     @Override
@@ -58,11 +50,6 @@ public class multi_select implements question {
     @Override
     public boolean isCorrect()
     {
-        if(selected_index_nums.length == correct_index_nums.length)
-        {
-            return true;
-        }
-
         return false;
     }
 
@@ -79,7 +66,7 @@ public class multi_select implements question {
 
     @Override
     public answer[] getAnswers() {
-        return new answer[0];
+        return answer_pool;
     }
 
     @Override

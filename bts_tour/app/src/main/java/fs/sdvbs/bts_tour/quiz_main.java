@@ -35,7 +35,15 @@ public class quiz_main extends AppCompatActivity {
     When checking the answers for a multi-select question the if statement seems to trigger a false
     on the final iteration of the loop. It may be related to the way I am checking the selected answers
     against the question's answers.
-        UPDATE: The bug seems to occur whenever the two booleans are false.
+        UPDATE: The bug seems to occur whenever the two booleans are false. It will interpret False && False
+        as False instead of True
+
+        SOLUTION: Use XOR (^) instead of AND (&&) when comparing two booleans
+        When doing a check to see if two booleans are the same you must be very careful on the operator
+        you use to compare. Using && with two False answers will cause the result to return False because
+        logically False && False == False. Using XOR and removing the negation from the if check will
+        only return true if the answers in the two group are not the same as each other (a = True ^ b = False),
+        (a = False, b = True)
 
     //*/
     //FrameLayout test = (FrameLayout) findViewById(R.id.quiz_template);
@@ -442,7 +450,7 @@ public class quiz_main extends AppCompatActivity {
                 for(int i = 0; i < selected.length;i++)
                 {
                     //SOMETHING STRANGE IS HAPPENING HERE ON THE FINAL ITERATION
-                    if(!(selected[i] && current_quiz.questions[current_question].getAnswers()[i].isCorrect()))
+                    if((selected[i] ^ current_quiz.questions[current_question].getAnswers()[i].isCorrect()))
                     {
                         correct = false;
                     }
@@ -461,6 +469,10 @@ public class quiz_main extends AppCompatActivity {
 
                 if(current_question < current_quiz.questions.length - 1)
                 {
+                    for(int i = 0; i < selected.length; i++)
+                    {
+                        selected[i] = false;
+                    }
                     current_question += 1;
                     nextQuestion(current_question,current_quiz);
                 }

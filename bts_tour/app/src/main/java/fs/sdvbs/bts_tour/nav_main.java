@@ -13,10 +13,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+/*
+TODO: Research startActivityForResults() to handle data being updated when user presses back button
 
+//*/
 public class nav_main extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    player current_player;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,11 +28,13 @@ public class nav_main extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        current_player = new player("Leon");
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, String.valueOf(current_player.stats.current_points), Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -75,6 +81,18 @@ public class nav_main extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK) {
+                String strEditText = data.getStringExtra("editTextValue");
+                Bundle extras = data.getExtras();
+                current_player = extras.getParcelable("current_player");
+            }
+        }
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -83,29 +101,30 @@ public class nav_main extends AppCompatActivity
 
         if (id == R.id.nav_training) {
             // Handle the camera action
-            Intent login_intent = new Intent(this, nav_training.class);
-            startActivity(login_intent);
+            Intent intent = new Intent(this, nav_training.class);
+            intent.putExtra("current_player", current_player);
+            startActivityForResult(intent,1);
         } else if (id == R.id.nav_schedule) {
-            Intent login_intent = new Intent(this, nav_schedule.class);
-            startActivity(login_intent);
+            Intent intent = new Intent(this, nav_schedule.class);
+            startActivityForResult(intent,1);
         } else if (id == R.id.nav_help) {
-            Intent login_intent = new Intent(this, nav_help.class);
-            startActivity(login_intent);
+            Intent intent = new Intent(this, nav_help.class);
+            startActivityForResult(intent,1);
         } else if (id == R.id.nav_maps) {
-            Intent login_intent = new Intent(this, nav_maps.class);
-            startActivity(login_intent);
+            Intent intent = new Intent(this, nav_maps.class);
+            startActivityForResult(intent,1);
         } else if (id == R.id.nav_contact) {
-            Intent login_intent = new Intent(this, nav_contact.class);
-            startActivity(login_intent);
+            Intent intent = new Intent(this, nav_contact.class);
+            startActivityForResult(intent,1);
         } else if (id == R.id.nav_progress) {
-            Intent login_intent = new Intent(this, nav_progress.class);
-            startActivity(login_intent);
+            Intent intent = new Intent(this, nav_progress.class);
+            startActivityForResult(intent,1);
         } else if (id == R.id.nav_quiz) {
-            Intent login_intent = new Intent(this, nav_quiz.class);
-            startActivity(login_intent);
+            Intent intent = new Intent(this, nav_quiz.class);
+            startActivityForResult(intent,1);
         } else if (id == R.id.nav_script) {
-            Intent login_intent = new Intent(this, nav_script.class);
-            startActivity(login_intent);
+            Intent intent = new Intent(this, nav_script.class);
+            startActivityForResult(intent,1);
         }
 //        else if (id == R.id.nav_share) {
 //

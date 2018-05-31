@@ -46,6 +46,11 @@ public class quiz_main extends AppCompatActivity {
         (a = False, b = True)
 
     //*/
+
+    /*
+    TODO: Refactor player into quiz system to update their progress
+    //*/
+
     //FrameLayout test = (FrameLayout) findViewById(R.id.quiz_template);
 
     //MULTIPLE CHOICE

@@ -10,6 +10,7 @@ import android.view.View;
 
 public class nav_quiz extends AppCompatActivity {
 
+    player current_player;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,12 +18,14 @@ public class nav_quiz extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.test_quiz_button);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent login_intent = new Intent(nav_quiz.this, quiz_main.class);
-                startActivity(login_intent);
+                Intent intent = new Intent(nav_quiz.this, quiz_main.class);
+                //intent.putExtra("CURRENT_PLAYER", current_player);
+                startActivity(intent);
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }

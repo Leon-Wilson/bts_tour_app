@@ -14,6 +14,7 @@ public class player implements Parcelable {
     level_system stats;
     //IMAGE? of the current player?
     String player_name;
+    //TODO: Add list of quizzes to player for storing results in database
 
     public player(String name_)
     {

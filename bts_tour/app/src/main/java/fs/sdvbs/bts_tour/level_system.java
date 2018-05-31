@@ -16,7 +16,7 @@ public class level_system implements Parcelable{
 
     int current_points;
     int points_until_levelup;
-    String test = "testter";
+
     public level_system()
     {
         current_level = 1;

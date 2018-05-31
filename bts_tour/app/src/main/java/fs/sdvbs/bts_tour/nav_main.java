@@ -14,7 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 /*
-TODO: Research startActivityForResults() to handle data being updated when user presses back button
+TODO: Research startActivityForResults() to handle data being updated when user presses back button (look into request codes)
 
 //*/
 public class nav_main extends AppCompatActivity
@@ -86,7 +86,6 @@ public class nav_main extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if(resultCode == RESULT_OK) {
-                String strEditText = data.getStringExtra("editTextValue");
                 Bundle extras = data.getExtras();
                 current_player = extras.getParcelable("current_player");
             }
@@ -121,6 +120,7 @@ public class nav_main extends AppCompatActivity
             startActivityForResult(intent,1);
         } else if (id == R.id.nav_quiz) {
             Intent intent = new Intent(this, nav_quiz.class);
+            intent.putExtra("current_player", current_player);
             startActivityForResult(intent,1);
         } else if (id == R.id.nav_script) {
             Intent intent = new Intent(this, nav_script.class);

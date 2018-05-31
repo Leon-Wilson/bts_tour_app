@@ -1,5 +1,6 @@
 package fs.sdvbs.bts_tour;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -52,7 +53,7 @@ public class quiz_main extends AppCompatActivity {
     //*/
 
     //FrameLayout test = (FrameLayout) findViewById(R.id.quiz_template);
-
+    player current_player;
     //MULTIPLE CHOICE
     View multi_choice;
     TextView mc_question;
@@ -87,6 +88,23 @@ public class quiz_main extends AppCompatActivity {
 
 
     boolean test_bool = true;
+
+    public void results()
+    {
+        //TODO: Create Results processing function
+        current_player.stats.current_points += current_score;
+        if(current_player.stats.current_points > current_player.stats.points_until_levelup)
+        {
+            current_player.stats.current_level += 1;
+        }
+
+        if(current_quiz.quizComplete())
+        {
+            Snackbar.make(findViewById(R.id.quiz_template), "You have answered enough to continue!", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        }
+        onBackPressed();
+    }
 
     public quiz createTestQuiz()
     {
@@ -276,6 +294,17 @@ public class quiz_main extends AppCompatActivity {
         multi_answer.setVisibility(View.GONE);
         fill_in.setVisibility(View.GONE);
 
+        Bundle extras = getIntent().getExtras();
+        if(extras != null)
+        {
+            current_player = extras.getParcelable("current_player");
+        }
+        else
+        {
+            //TODO: Error handling for null current player
+            current_player = new player("BAD NEWS");
+        }
+
         //TEST QUIZ
         if(test_bool)
         {
@@ -303,6 +332,11 @@ public class quiz_main extends AppCompatActivity {
 
                 if(current_quiz.questions[current_question].getAnswers()[0].isCorrect())
                 {
+                    if(!current_quiz.questions[current_question].alreadyCorrect())
+                    {
+                        current_quiz.total_correct += 1;
+                        current_quiz.questions[current_question].setAlreadyCorrect(true);
+                    }                    current_score += 1;
                     Snackbar.make(view, "RIGHT", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
@@ -316,6 +350,10 @@ public class quiz_main extends AppCompatActivity {
                 {
                     current_question += 1;
                     nextQuestion(current_question, current_quiz);
+                }
+                else
+                {
+                    results();
                 }
             }
         });
@@ -325,6 +363,11 @@ public class quiz_main extends AppCompatActivity {
             public void onClick(View view) {
                 if(current_quiz.questions[current_question].getAnswers()[1].isCorrect())
                 {
+                    if(!current_quiz.questions[current_question].alreadyCorrect())
+                    {
+                        current_quiz.total_correct += 1;
+                        current_quiz.questions[current_question].setAlreadyCorrect(true);
+                    }                    current_score += 1;
                     Snackbar.make(view, "RIGHT", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
@@ -338,6 +381,10 @@ public class quiz_main extends AppCompatActivity {
                 {
                     current_question += 1;
                     nextQuestion(current_question, current_quiz);
+                }
+                else
+                {
+                    results();
                 }
             }
         });
@@ -347,6 +394,11 @@ public class quiz_main extends AppCompatActivity {
             public void onClick(View view) {
                 if(current_quiz.questions[current_question].getAnswers()[2].isCorrect())
                 {
+                    if(!current_quiz.questions[current_question].alreadyCorrect())
+                    {
+                        current_quiz.total_correct += 1;
+                        current_quiz.questions[current_question].setAlreadyCorrect(true);
+                    }                    current_score += 1;
                     Snackbar.make(view, "RIGHT", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
@@ -361,6 +413,10 @@ public class quiz_main extends AppCompatActivity {
                     current_question += 1;
                     nextQuestion(current_question, current_quiz);
                 }
+                else
+                {
+                    results();
+                }
             }
         });
 
@@ -369,6 +425,12 @@ public class quiz_main extends AppCompatActivity {
             public void onClick(View view) {
                 if(current_quiz.questions[current_question].getAnswers()[3].isCorrect())
                 {
+                    if(!current_quiz.questions[current_question].alreadyCorrect())
+                    {
+                        current_quiz.total_correct += 1;
+                        current_quiz.questions[current_question].setAlreadyCorrect(true);
+                    }
+                    current_score += 1;
                     Snackbar.make(view, "RIGHT", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
@@ -382,6 +444,10 @@ public class quiz_main extends AppCompatActivity {
                 {
                     current_question += 1;
                     nextQuestion(current_question,current_quiz);
+                }
+                else
+                {
+                    results();
                 }
             }
         });
@@ -463,6 +529,12 @@ public class quiz_main extends AppCompatActivity {
 
                 if(correct)
                 {
+                    if(!current_quiz.questions[current_question].alreadyCorrect())
+                    {
+                        current_quiz.total_correct += 1;
+                        current_quiz.questions[current_question].setAlreadyCorrect(true);
+                    }
+                    current_score += 1;
                     Snackbar.make(view, "RIGHT", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
@@ -481,8 +553,21 @@ public class quiz_main extends AppCompatActivity {
                     current_question += 1;
                     nextQuestion(current_question,current_quiz);
                 }
+                else
+                {
+                    results();
+                }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent();
+        intent.putExtra("current_player", current_player);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
 }

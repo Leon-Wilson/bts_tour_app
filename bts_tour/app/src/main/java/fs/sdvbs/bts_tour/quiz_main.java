@@ -75,9 +75,9 @@ public class quiz_main extends AppCompatActivity {
 
     int current_question = 0;
     int questions_in_quiz = 0;
+    int current_score;
 
     quiz current_quiz;
-
 
 
 

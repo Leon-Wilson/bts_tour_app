@@ -19,6 +19,7 @@ public class multi_select implements question {
     //int[] correct_index_nums;
     //int[] selected_index_nums;
 
+    int building_num;
     boolean already_answered_correctly = false;
 
     public multi_select(String question_text_, answer[] answer_pool_)

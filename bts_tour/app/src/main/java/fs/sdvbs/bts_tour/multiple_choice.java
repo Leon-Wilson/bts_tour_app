@@ -14,6 +14,7 @@ public class multiple_choice implements question {
     int player_choice;
     int correct_answer = -1;
 
+    int building_num = -1;
     boolean already_answered_correctly = false;
 
     multiple_choice(String question_ , answer[] answer_pool_)

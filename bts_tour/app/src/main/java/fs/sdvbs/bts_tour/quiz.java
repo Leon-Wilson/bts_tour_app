@@ -9,6 +9,7 @@ public class quiz {
 
     int total_questions;
     int total_correct;
+    int previous_total;
     int question_num = 0;
     boolean complete = false;
     boolean locked = true;
@@ -22,13 +23,24 @@ public class quiz {
 
     public boolean quizComplete()
     {
+        //TODO: Should probably make sure these are rounded to integers to avoid fractional comparison
         if(total_correct > (total_questions - (total_questions * 0.25)))
         {
+            complete = true;
             return true;
         }
         return false;
     }
 
+    public boolean isComplete()
+    {
+        return complete;
+    }
+
+    public void setComplete(boolean value_)
+    {
+        complete = value_;
+    }
     public void setLock(boolean value_)
     {
         locked = value_;

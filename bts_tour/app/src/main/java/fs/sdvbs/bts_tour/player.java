@@ -15,6 +15,7 @@ public class player implements Parcelable {
     //IMAGE? of the current player?
     String player_name;
     //TODO: Add list of quizzes to player for storing results in database
+    quiz[] quizzes;
 
     public player(String name_)
     {

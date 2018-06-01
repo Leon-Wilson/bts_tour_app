@@ -46,10 +46,13 @@ public class quiz_main extends AppCompatActivity {
         only return true if the answers in the two group are not the same as each other (a = True ^ b = False),
         (a = False, b = True)
 
+    LW_BUG_4: After answering the final question, the quiz does not give enough time to view the result message.
+    This could be fixed when the I implement the result screen
+    TODO: implement results screen
     //*/
 
     /*
-    TODO: Refactor player into quiz system to update their progress
+    TODO: (DONE) Refactor player into quiz system to update their progress
     //*/
 
     //FrameLayout test = (FrameLayout) findViewById(R.id.quiz_template);
@@ -92,7 +95,9 @@ public class quiz_main extends AppCompatActivity {
     public void results()
     {
         //TODO: Create Results processing function
-        current_player.stats.current_points += current_score;
+        current_player.stats.current_points += current_quiz.total_correct - current_quiz.previous_total;
+        current_quiz.previous_total = current_quiz.total_correct;
+
         if(current_player.stats.current_points > current_player.stats.points_until_levelup)
         {
             current_player.stats.current_level += 1;
@@ -106,7 +111,7 @@ public class quiz_main extends AppCompatActivity {
         onBackPressed();
     }
 
-    public quiz createTestQuiz()
+    public quiz createTestQuiz(boolean quiz_complete, boolean answers_complete)
     {
         //TEST QUIZ
         quiz test_quiz;
@@ -170,6 +175,28 @@ public class quiz_main extends AppCompatActivity {
         test_questions[3] = new multi_select("Q4.This is another multi selection question", q4_answers);
 
         test_quiz = new quiz(test_questions);
+
+        if(quiz_complete)
+        {
+            test_quiz.setComplete(true);
+        }
+
+        if(answers_complete)
+        {
+            test_quiz.questions[1].setAlreadyCorrect(true);
+            test_quiz.questions[3].setAlreadyCorrect(true);
+
+            for(int i = 0; i < test_questions.length;i++)
+            {
+                if(test_quiz.questions[i].alreadyCorrect())
+                {
+                    test_quiz.total_correct += 1;
+
+                }
+            }
+
+            test_quiz.previous_total = test_quiz.total_correct;
+        }
 
         return test_quiz;
     }
@@ -308,14 +335,27 @@ public class quiz_main extends AppCompatActivity {
         //TEST QUIZ
         if(test_bool)
         {
-            current_quiz = createTestQuiz();
+            current_quiz = createTestQuiz(false,true);
         }
         else
         {
             // current quiz will be equal to the quiz selected from the list
         }
 
-        startQuiz();
+        //TODO: make this system a secondary check for testing a test quiz
+        //TODO: create primary system that checks for completeness before starting the quiz in the quiz list
+        if(!current_quiz.isComplete())
+        {
+            startQuiz();
+        }
+        else
+        {
+            //TODO: find work around that displays message of completion
+           /*/* Snackbar.make(findViewById(R.id.quiz_template), "You have answered enough to continue!", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+                    //*/
+            onBackPressed();
+        }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -336,9 +376,15 @@ public class quiz_main extends AppCompatActivity {
                     {
                         current_quiz.total_correct += 1;
                         current_quiz.questions[current_question].setAlreadyCorrect(true);
-                    }                    current_score += 1;
-                    Snackbar.make(view, "RIGHT", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                        Snackbar.make(view, "NEW CORRECT ANSWER!!!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }
+                    else
+                    {
+                        Snackbar.make(view, "GOOD MEMORY!!!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }
+                    current_score += 1;
                 }
                 else
                 {
@@ -367,9 +413,15 @@ public class quiz_main extends AppCompatActivity {
                     {
                         current_quiz.total_correct += 1;
                         current_quiz.questions[current_question].setAlreadyCorrect(true);
-                    }                    current_score += 1;
-                    Snackbar.make(view, "RIGHT", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                        Snackbar.make(view, "NEW CORRECT ANSWER!!!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }
+                    else
+                    {
+                        Snackbar.make(view, "GOOD MEMORY!!!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }
+                    current_score += 1;
                 }
                 else
                 {
@@ -398,9 +450,15 @@ public class quiz_main extends AppCompatActivity {
                     {
                         current_quiz.total_correct += 1;
                         current_quiz.questions[current_question].setAlreadyCorrect(true);
-                    }                    current_score += 1;
-                    Snackbar.make(view, "RIGHT", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                        Snackbar.make(view, "NEW CORRECT ANSWER!!!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }
+                    else
+                    {
+                        Snackbar.make(view, "GOOD MEMORY!!!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }
+                    current_score += 1;
                 }
                 else
                 {
@@ -429,10 +487,15 @@ public class quiz_main extends AppCompatActivity {
                     {
                         current_quiz.total_correct += 1;
                         current_quiz.questions[current_question].setAlreadyCorrect(true);
+                        Snackbar.make(view, "NEW CORRECT ANSWER!!!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }
+                    else
+                    {
+                        Snackbar.make(view, "GOOD MEMORY!!!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
                     }
                     current_score += 1;
-                    Snackbar.make(view, "RIGHT", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
                 }
                 else
                 {
@@ -533,10 +596,15 @@ public class quiz_main extends AppCompatActivity {
                     {
                         current_quiz.total_correct += 1;
                         current_quiz.questions[current_question].setAlreadyCorrect(true);
+                        Snackbar.make(view, "NEW CORRECT ANSWER!!!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }
+                    else
+                    {
+                        Snackbar.make(view, "GOOD MEMORY!!!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
                     }
                     current_score += 1;
-                    Snackbar.make(view, "RIGHT", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
                 }
                 else
                 {

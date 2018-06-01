@@ -37,8 +37,8 @@ public class nav_quiz extends AppCompatActivity {
                 intent.putExtra("current_player", current_player);
                 //intent.putExtra("CURRENT_PLAYER", current_player);
                 startActivityForResult(intent,1);
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                //        .setAction("Action", null).show();
             }
         });
     }

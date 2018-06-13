@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "228542816627",
+    "firebase_url": "https://bts-tour.firebaseio.com",
+    "project_id": "bts-tour",
+    "storage_bucket": "bts-tour.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:228542816627:android:ba3dfbbd3cc7723e",
+        "android_client_info": {
+          "package_name": "fs.sdvbs.bts_tour"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "228542816627-8ansf3ti2bjtd3afkeie7tt8eoig01hn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fs.sdvbs.bts_tour",
+            "certificate_hash": "def59fe87f5d84b8405a4e773c2b56df1a61e5a2"
+          }
+        },
+        {
+          "client_id": "228542816627-4mhmcqeoc39j6mqa0n0p6mid98f4asuo.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "228542816627-4mhmcqeoc39j6mqa0n0p6mid98f4asuo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRq0S3PETU_ZLi5kCuILZjLtkqBWEJtYs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "228542816627-4mhmcqeoc39j6mqa0n0p6mid98f4asuo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

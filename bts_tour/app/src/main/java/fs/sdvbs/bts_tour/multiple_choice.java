@@ -11,6 +11,7 @@ public class multiple_choice implements question {
     String question_text = "";
     answer[] answer_pool;
 
+    //BOTH NEVER ACTUALLY USED
     int player_choice;
     int correct_answer = -1;
 
@@ -50,6 +51,7 @@ public class multiple_choice implements question {
     @Override
     public String getQuestionText() { return question_text; }
 
+    //NEVER ACTUALLY USED
     @Override
     public boolean isCorrect()
     {

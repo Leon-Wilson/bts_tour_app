@@ -13,6 +13,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
 /*
 TODO: Research startActivityForResults() to handle data being updated when user presses back button (look into request codes)
 
@@ -21,6 +24,7 @@ public class nav_main extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     player current_player;
+    ProgressBar player_progress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +33,12 @@ public class nav_main extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         current_player = new player("Leon");
+        player_progress = (ProgressBar) findViewById(R.id.player_progress);
+
+        player_progress.setMax(current_player.stats.points_until_levelup);
+        player_progress.setProgress(current_player.stats.current_points);
+        TextView player_name = (TextView) findViewById(R.id.stat_name);
+        TextView player_level = (TextView) findViewById(R.id.stat_current_level);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -90,6 +100,12 @@ public class nav_main extends AppCompatActivity
                 current_player = extras.getParcelable("current_player");
             }
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        player_progress.setProgress(current_player.stats.current_points);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

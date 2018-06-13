@@ -23,7 +23,7 @@ public class level_system implements Parcelable{
         current_level = 1;
         level_cap = 5;
         current_points = 0;
-        points_until_levelup = 100;
+        points_until_levelup = 10;
     }
 
     protected level_system(Parcel in) {

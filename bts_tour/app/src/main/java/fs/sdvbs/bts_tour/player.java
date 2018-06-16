@@ -21,6 +21,7 @@ public class player implements Parcelable {
     public player(String name_) {
         player_name = name_;
         stats = new level_system();
+        current_user = new user_json();
     }
 
     public player(String name_, level_system stats_) {
@@ -56,5 +57,10 @@ public class player implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(player_name);
         parcel.writeParcelable(stats, i);
+    }
+
+    public void setQuizList()
+    {
+        quizzes = current_user.getQuizzes();
     }
 }

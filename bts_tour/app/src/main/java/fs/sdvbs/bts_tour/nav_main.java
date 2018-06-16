@@ -23,6 +23,7 @@ TODO: Research startActivityForResults() to handle data being updated when user 
 public class nav_main extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    int i = 0;
     player current_player;
     ProgressBar player_progress;
     @Override
@@ -33,19 +34,35 @@ public class nav_main extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         current_player = new player("Leon");
+        current_player.setQuizList();
         player_progress = (ProgressBar) findViewById(R.id.player_progress);
 
         player_progress.setMax(current_player.stats.points_until_levelup);
         player_progress.setProgress(current_player.stats.current_points);
-        TextView player_name = (TextView) findViewById(R.id.stat_name);
-        TextView player_level = (TextView) findViewById(R.id.stat_current_level);
 
+        TextView player_name = (TextView) findViewById(R.id.stat_name);
+        player_name.setText(current_player.player_name);
+        player_name.setTextSize(20);
+
+        TextView player_level = (TextView) findViewById(R.id.stat_current_level);
+        player_level.setText(String.valueOf(current_player.stats.current_level));
+        player_level.setTextSize(20);
+
+        i = 0;
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, String.valueOf(current_player.stats.current_points), Snackbar.LENGTH_LONG)
+                Snackbar.make(view, String.valueOf(current_player.quizzes[i].quiz_name), Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                if(current_player.quizzes[i + 1] != null)
+                {
+                    i++;
+                }
+                else
+                {
+                    i = 0;
+                }
             }
         });
 

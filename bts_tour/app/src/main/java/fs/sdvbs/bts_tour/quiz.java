@@ -7,6 +7,8 @@ package fs.sdvbs.bts_tour;
 public class quiz {
     question[] questions;
 
+    String building_key;
+    String quiz_name;
     int total_questions;
     int total_correct;
     int previous_total;
@@ -16,6 +18,14 @@ public class quiz {
 
     public quiz(question[] questions_)
     {
+        questions = questions_;
+        total_questions = questions.length;
+        total_correct = 0;
+    }
+
+    public quiz(String name_, question[] questions_)
+    {
+        quiz_name = name_;
         questions = questions_;
         total_questions = questions.length;
         total_correct = 0;

@@ -31,4 +31,5 @@
     <string name="title_activity_nav_quiz">Quiz</string>
     <string name="title_activity_nav_script">Script</string>
     <string name="title_activity_quiz">quiz</string>
+    <string name="title_activity_sign_up">Sign Up</string>
 </resources>

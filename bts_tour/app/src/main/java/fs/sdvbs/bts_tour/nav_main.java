@@ -13,6 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -26,6 +28,10 @@ public class nav_main extends AppCompatActivity
     int i = 0;
     player current_player;
     ProgressBar player_progress;
+    ListView mListview;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,12 +39,13 @@ public class nav_main extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        current_player = new player("Leon");
+        current_player = new player("TEST USER");
         current_player.setQuizList();
         player_progress = (ProgressBar) findViewById(R.id.player_progress);
 
         player_progress.setMax(current_player.stats.points_until_levelup);
         player_progress.setProgress(current_player.stats.current_points);
+
 
         TextView player_name = (TextView) findViewById(R.id.stat_name);
         player_name.setText(current_player.player_name);
@@ -53,7 +60,7 @@ public class nav_main extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, String.valueOf(current_player.quizzes[i].quiz_name), Snackbar.LENGTH_LONG)
+                /*Snackbar.make(view, String.valueOf(current_player.quizzes[i].quiz_name), Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 if(current_player.quizzes[i + 1] != null)
                 {
@@ -62,7 +69,8 @@ public class nav_main extends AppCompatActivity
                 else
                 {
                     i = 0;
-                }
+                }*/
+                loadList();
             }
         });
 
@@ -119,10 +127,119 @@ public class nav_main extends AppCompatActivity
         }
     }
 
+    public void loadList()
+    {
+        int quiz_num = 0;
+        String[] quiz_names = new String[1];
+
+        for(int i = 0; i < current_player.quizzes.length;i++)
+        {
+            if(current_player.quizzes[i] == null)
+            {
+                quiz_num = i;
+                break;
+                /*else
+                {
+                    quiz_num = 1;
+                    quiz_names = new String[quiz_num];
+                    quiz_names[quiz_num - 1] = new String("NO QUIZZES FOUND");
+                    break;
+                }*/
+            }
+           /* else
+            {
+                if((i + 1) < current_player.quizzes.length)
+                {
+                    continue;
+                }
+                {
+                    quiz_names = new String[1];
+                    quiz_names[0] = new String("REACHED MAXIMUM QUIZ LOAD");
+                }
+            }*/
+        }
+
+        if(quiz_num == 0)
+        {
+            quiz_num = 1;
+            quiz_names = new String[quiz_num];
+            quiz_names[0] = new String("NO QUIZZES FOUND");
+        }
+        else if(quiz_num > current_player.quizzes.length)
+        {
+            quiz_names = new String[1];
+            quiz_names[0] = new String("OVER MAXIMUM QUIZ AMOUNT");
+        }
+        else
+        {
+            quiz_names = new String[quiz_num];
+            for(int j = 0; j < quiz_num; j++)
+            {
+                quiz_names[j] = current_player.quizzes[j].getName();
+            }
+        }
+        ArrayAdapter<String> name_list = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, quiz_names);
+
+        mListview.setAdapter(name_list);
+    }
     @Override
     protected void onStart() {
         super.onStart();
         player_progress.setProgress(current_player.stats.current_points);
+        int quiz_num = 0;
+        String[] quiz_names = new String[1];
+        mListview = (ListView) findViewById(R.id.checklist);
+
+
+        for(int i = 0; i < current_player.quizzes.length;i++)
+        {
+            if(current_player.quizzes[i] == null)
+            {
+                quiz_num = i;
+                break;
+                /*else
+                {
+                    quiz_num = 1;
+                    quiz_names = new String[quiz_num];
+                    quiz_names[quiz_num - 1] = new String("NO QUIZZES FOUND");
+                    break;
+                }*/
+            }
+           /* else
+            {
+                if((i + 1) < current_player.quizzes.length)
+                {
+                    continue;
+                }
+                {
+                    quiz_names = new String[1];
+                    quiz_names[0] = new String("REACHED MAXIMUM QUIZ LOAD");
+                }
+            }*/
+        }
+
+        if(quiz_num == 0)
+        {
+            quiz_num = 1;
+            quiz_names = new String[quiz_num];
+            quiz_names[0] = new String("NO QUIZZES FOUND");
+        }
+        else if(quiz_num > current_player.quizzes.length)
+        {
+            quiz_names = new String[1];
+            quiz_names[0] = new String("OVER MAXIMUM QUIZ AMOUNT");
+        }
+        else
+        {
+            quiz_names = new String[quiz_num];
+            for(int j = 0; j < quiz_num; j++)
+            {
+                quiz_names[j] = current_player.quizzes[j].getName();
+            }
+        }
+        ArrayAdapter<String> name_list = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, quiz_names);
+
+        mListview.setAdapter(name_list);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

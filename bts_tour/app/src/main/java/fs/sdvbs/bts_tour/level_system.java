@@ -8,7 +8,7 @@ import android.os.Parcelable;
  */
 
 /*
-TODO: (IN PROGRESS) Implement Parceable into level system so that it can be written to the player parceable objects when transfering
+TODO: (DONE) Implement Parceable into level system so that it can be written to the player parceable objects when transfering
 //*/
 public class level_system implements Parcelable{
     int current_level;

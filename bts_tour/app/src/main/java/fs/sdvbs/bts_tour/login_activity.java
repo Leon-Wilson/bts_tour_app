@@ -3,6 +3,7 @@ package fs.sdvbs.bts_tour;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -83,6 +84,7 @@ public class login_activity extends AppCompatActivity implements LoaderCallbacks
         populateAutoComplete();
 
         mPasswordView = (EditText) findViewById(R.id.password);
+
 /*        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -106,7 +108,9 @@ public class login_activity extends AppCompatActivity implements LoaderCallbacks
         mEmailSignUpButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptSignUp();
+                Intent intent = new Intent(getBaseContext(),sign_up.class);
+                startActivity(intent);
+                //attemptSignUp();
             }
         });
 

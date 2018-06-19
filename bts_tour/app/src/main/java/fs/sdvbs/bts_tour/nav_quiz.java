@@ -7,10 +7,15 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.List;
 
 public class nav_quiz extends AppCompatActivity {
 
     player current_player;
+    ListView quiz_list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,10 +23,14 @@ public class nav_quiz extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        quiz_list = (ListView) findViewById(R.id.quiz_list);
         Bundle extras = getIntent().getExtras();
         if(extras != null)
         {
             current_player = extras.getParcelable("current_player");
+            current_player.current_user = user_json.getInstance();
+            current_player.quizzes = current_player.current_user.getQuizzes();
+            loadList();
         }
         else
         {
@@ -52,6 +61,63 @@ public class nav_quiz extends AppCompatActivity {
                 current_player = extras.getParcelable("current_player");
             }
         }
+    }
+
+    //TODO: Create some kind of global function for displaying quizzes
+    public void loadList()
+    {
+        int quiz_num = 0;
+        String[] quiz_names = new String[1];
+
+        for(int i = 0; i < current_player.quizzes.length;i++)
+        {
+            if(current_player.quizzes[i] == null)
+            {
+                quiz_num = i;
+                break;
+                /*else
+                {
+                    quiz_num = 1;
+                    quiz_names = new String[quiz_num];
+                    quiz_names[quiz_num - 1] = new String("NO QUIZZES FOUND");
+                    break;
+                }*/
+            }
+           /* else
+            {
+                if((i + 1) < current_player.quizzes.length)
+                {
+                    continue;
+                }
+                {
+                    quiz_names = new String[1];
+                    quiz_names[0] = new String("REACHED MAXIMUM QUIZ LOAD");
+                }
+            }*/
+        }
+
+        if(quiz_num == 0)
+        {
+            quiz_num = 1;
+            quiz_names = new String[quiz_num];
+            quiz_names[0] = new String("NO QUIZZES FOUND");
+        }
+        else if(quiz_num > current_player.quizzes.length)
+        {
+            quiz_names = new String[1];
+            quiz_names[0] = new String("OVER MAXIMUM QUIZ AMOUNT");
+        }
+        else
+        {
+            quiz_names = new String[quiz_num];
+            for(int j = 0; j < quiz_num; j++)
+            {
+                quiz_names[j] = current_player.quizzes[j].getName();
+            }
+        }
+        ArrayAdapter<String> name_list = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, quiz_names);
+
+        quiz_list.setAdapter(name_list);
     }
 
     @Override

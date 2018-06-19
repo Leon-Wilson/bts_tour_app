@@ -35,6 +35,7 @@ We can limit the number of times the data is updated if we
 
 public class user_json implements Parcelable{
 
+    private static user_json instance = null;
     FirebaseAuth mAuth;
     FirebaseDatabase fDatabase;
 
@@ -52,6 +53,14 @@ public class user_json implements Parcelable{
     int quiz_num = 0;
     int current_ = 1;
 
+    public static user_json getInstance()
+    {
+        if(instance == null)
+        {
+            instance = new user_json();
+        }
+        return instance;
+    }
 
     ChildEventListener parser = new ChildEventListener() {
         @Override

@@ -4,6 +4,7 @@ package fs.sdvbs.bts_tour;
  * Created by Leon on 5/22/18.
  */
 
+//TODO: Make Parcelable
 public class quiz {
     question[] questions;
 
@@ -54,5 +55,9 @@ public class quiz {
     public void setLock(boolean value_)
     {
         locked = value_;
+    }
+    public String getName()
+    {
+        return quiz_name;
     }
 }

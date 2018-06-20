@@ -19,11 +19,21 @@ public class player implements Parcelable {
     //TODO: (DONE) Add list of quizzes to player for storing results in database
     quiz[] quizzes;
 
+    private static player instance = null;
+    public static player getInstance()
+    {
+        if(instance == null)
+        {
+            instance = new player();
+        }
+        return instance;
+    }
+
     public player()
     {
         player_name = null;
         quizzes = null;
-        stats = null;
+        stats = new level_system();
         current_user = user_json.getInstance();
     }
     public player(String name_) {

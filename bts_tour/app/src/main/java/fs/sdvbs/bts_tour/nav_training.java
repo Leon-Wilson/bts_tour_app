@@ -21,7 +21,7 @@ public class nav_training extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if(extras != null)
         {
-            current_player = extras.getParcelable("current_player");
+            current_player = player.getInstance();//extras.getParcelable("current_player");
         }
         else
         {
@@ -43,8 +43,10 @@ public class nav_training extends AppCompatActivity {
     public void onBackPressed()
     {
         Intent intent = new Intent();
+        current_player.setName("Test User");
         intent.putExtra("current_player", current_player);
         setResult(RESULT_OK, intent);
+
         finish();
     }
 

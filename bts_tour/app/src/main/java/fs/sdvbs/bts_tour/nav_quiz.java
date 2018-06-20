@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -14,6 +15,13 @@ import java.util.List;
 
 public class nav_quiz extends AppCompatActivity {
 
+
+    /*
+
+    LW_BUG_6: After completing a quiz, pressing the back button will cause the system to crash
+    UPDATE: Crashes on back press regardless of whether a quiz has been taken on not
+    UPDATE: Crash happens on any back press
+     */
     player current_player;
     ListView quiz_list;
     @Override
@@ -24,10 +32,20 @@ public class nav_quiz extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         quiz_list = (ListView) findViewById(R.id.quiz_list);
+        quiz_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                int selected_quiz = i;
+                Intent intent = new Intent(nav_quiz.this, quiz_main.class);
+                intent.putExtra("current_player",current_player);
+                intent.putExtra("selected_quiz", selected_quiz);
+                startActivityForResult(intent,1);
+            }
+        });
         Bundle extras = getIntent().getExtras();
         if(extras != null)
         {
-            current_player = extras.getParcelable("current_player");
+            current_player = player.getInstance();//extras.getParcelable("current_player");;
             current_player.current_user = user_json.getInstance();
             current_player.quizzes = current_player.current_user.getQuizzes();
             loadList();
@@ -58,7 +76,7 @@ public class nav_quiz extends AppCompatActivity {
         if (requestCode == 1) {
             if(resultCode == RESULT_OK) {
                 Bundle extras = data.getExtras();
-                current_player = extras.getParcelable("current_player");
+                current_player = player.getInstance();//extras.getParcelable("current_player");
             }
         }
     }

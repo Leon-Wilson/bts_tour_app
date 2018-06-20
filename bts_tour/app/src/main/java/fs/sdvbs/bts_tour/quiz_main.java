@@ -48,6 +48,8 @@ public class quiz_main extends AppCompatActivity {
 
     LW_BUG_4: After answering the final question, the quiz does not give enough time to view the result message.
     This could be fixed when the I implement the result screen
+
+
     TODO: implement results screen
     //*/
 
@@ -90,7 +92,7 @@ public class quiz_main extends AppCompatActivity {
 
 
 
-    boolean test_bool = true;
+    boolean test_bool = false;
 
     public void results()
     {
@@ -98,9 +100,10 @@ public class quiz_main extends AppCompatActivity {
         current_player.stats.current_points += current_quiz.total_correct - current_quiz.previous_total;
         current_quiz.previous_total = current_quiz.total_correct;
 
-        if(current_player.stats.current_points > current_player.stats.points_until_levelup)
+        if(current_player.stats.LEVELUP())
         {
-            current_player.stats.current_level += 1;
+            Snackbar.make(findViewById(R.id.quiz_template), "You have leveled up!", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
         }
 
         if(current_quiz.quizComplete())
@@ -202,6 +205,7 @@ public class quiz_main extends AppCompatActivity {
     }
     private void startQuiz()
     {
+        //LW_BUG_7: System doesn't seem to recognize change between multiple choice and multiple select
         multi_choice.setVisibility(View.GONE);
         multi_answer.setVisibility(View.GONE);
         fill_in.setVisibility(View.GONE);
@@ -324,12 +328,15 @@ public class quiz_main extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if(extras != null)
         {
-            current_player = extras.getParcelable("current_player");
+            current_player = player.getInstance();//extras.getParcelable("current_player");
+            int selected = extras.getInt("selected_quiz");
+            current_quiz = user_json.getInstance().quiz_list[selected];
         }
         else
         {
             //TODO: Error handling for null current player
             current_player = new player("BAD NEWS");
+            test_bool = true;
         }
 
         //TEST QUIZ
@@ -376,6 +383,7 @@ public class quiz_main extends AppCompatActivity {
                     {
                         current_quiz.total_correct += 1;
                         current_quiz.questions[current_question].setAlreadyCorrect(true);
+
                         Snackbar.make(view, "NEW CORRECT ANSWER!!!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     }
@@ -634,7 +642,7 @@ public class quiz_main extends AppCompatActivity {
     {
         Intent intent = new Intent();
         intent.putExtra("current_player", current_player);
-        setResult(RESULT_OK, intent);
+        //setResult(RESULT_OK, intent);
         finish();
     }
 

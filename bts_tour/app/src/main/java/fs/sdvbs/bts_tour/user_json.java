@@ -30,7 +30,8 @@ The current user's JSON file that will be pulled from the Firebase.
 This will be the main way of updating the user on the database and should eliminate
 the need for constant pulling and pushing from the database.
 
-We can limit the number of times the data is updated if we
+
+    LW_BUG_5: The text for question answers is not being captured by the system.
  */
 
 public class user_json implements Parcelable{
@@ -107,6 +108,10 @@ public class user_json implements Parcelable{
                     test.child("total_questions");*/
 
                     //TODO: Put into function
+                        /*
+                        LW_BUG_8: Always chooses multi_choice for each question
+                        SOLUTION: Forgot to change child hardcoded assignment to dynamic version using question_num.get(q_num)
+                        */
                     quiz_questions = new question[5];
 
                     for(int q_num = 0; q_num < 5; q_num++)
@@ -114,9 +119,9 @@ public class user_json implements Parcelable{
                         multiple_choice temp_choice;
                         multi_select temp_select;
 
-                        boolean temp_already_correct = (boolean) data.child("questions").child("q1").child("already_correct").getValue();
-                        String temp_question_text = data.child("questions").child("q1").child("text").getValue().toString();
-                        String temp_question_type = data.child("questions").child("q1").child("type").getValue().toString();
+                        boolean temp_already_correct = (boolean) data.child("questions").child(question_num.get(q_num)).child("already_correct").getValue();
+                        String temp_question_text = data.child("questions").child(question_num.get(q_num)).child("text").getValue().toString();
+                        String temp_question_type = data.child("questions").child(question_num.get(q_num)).child("type").getValue().toString();
 
                         answer[] temp_ans_array = new answer[4];
 
@@ -132,15 +137,16 @@ public class user_json implements Parcelable{
                         {
                             case "multi_choice":
                                 temp_choice = new multiple_choice(temp_question_text,temp_ans_array);
+                                temp_choice.setAlreadyCorrect(temp_already_correct);
                                 quiz_questions[q_num] = temp_choice;
                                 break;
                             case "multi_select":
                                 temp_select = new multi_select(temp_question_text,temp_ans_array);
+                                temp_select.setAlreadyCorrect(temp_already_correct);
                                 quiz_questions[q_num] = temp_select;
                                 break;
 
                         }
-                        //LW_BUG_05
                         /*if(temp_question_type == "multi_choice")
                         {
                             temp_choice = new multiple_choice(temp_question_text,temp_ans_array);

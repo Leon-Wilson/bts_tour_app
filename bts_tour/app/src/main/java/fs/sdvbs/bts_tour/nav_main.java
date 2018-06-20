@@ -39,7 +39,8 @@ public class nav_main extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        current_player = new player("TEST USER");
+        current_player = player.getInstance();
+        current_player.setName("STUDENT");
         current_player.setQuizList();
         player_progress = (ProgressBar) findViewById(R.id.player_progress);
 
@@ -122,7 +123,23 @@ public class nav_main extends AppCompatActivity
         if (requestCode == 1) {
             if(resultCode == RESULT_OK) {
                 Bundle extras = data.getExtras();
-                current_player = extras.getParcelable("current_player");
+                //LW_BUG_6 This is the last place it seems to get before it crashes
+                //TODO: Create update function for when the user returns to the main screen
+
+                player_progress = (ProgressBar) findViewById(R.id.player_progress);
+
+                player_progress.setMax(current_player.stats.points_until_levelup);
+                player_progress.setProgress(current_player.stats.current_points);
+
+                TextView player_name = (TextView) findViewById(R.id.stat_name);
+                player_name.setText(current_player.player_name);
+                player_name.setTextSize(20);
+
+                TextView player_level = (TextView) findViewById(R.id.stat_current_level);
+                player_level.setText(String.valueOf(current_player.stats.current_level));
+                player_level.setTextSize(20);
+                current_player = player.getInstance();//extras.getParcelable("current_player");
+
             }
         }
     }
@@ -241,6 +258,7 @@ public class nav_main extends AppCompatActivity
 
         mListview.setAdapter(name_list);
     }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override

@@ -20,12 +20,27 @@ public class level_system implements Parcelable{
     //TODO: Create test cases for level up system
     public level_system()
     {
+        //TODO: Add level names
         current_level = 1;
         level_cap = 5;
         current_points = 0;
-        points_until_levelup = 10;
+        points_until_levelup = 7;
     }
 
+    public boolean LEVELUP()
+    {
+        if(current_points >= points_until_levelup)
+        {
+            if(current_level < level_cap)
+            {
+                current_level++;
+            }
+            current_points = 0;
+            points_until_levelup += 2;
+            return true;
+        }
+        return false;
+    }
     protected level_system(Parcel in) {
         current_level = in.readInt();
         level_cap = in.readInt();

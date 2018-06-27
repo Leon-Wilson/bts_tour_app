@@ -7,5 +7,6 @@ package fs.sdvbs.bts_tour;
 public enum question_types {
     multiple_choice,
     multiple_answer,
-    fill_in_blank
+    fill_in_blank,
+    short_answer
 }

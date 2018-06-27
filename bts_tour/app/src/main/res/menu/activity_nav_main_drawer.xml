@@ -33,6 +33,10 @@
             android:icon="@drawable/ic_menu_manage"
             android:title="Contact" />
         <item
+            android:id="@+id/nav_weather"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Weather" />
+        <item
             android:id="@+id/nav_help"
             android:icon="@drawable/ic_menu_manage"
             android:title="Help" />

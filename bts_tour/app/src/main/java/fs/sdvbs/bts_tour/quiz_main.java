@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -83,6 +84,12 @@ public class quiz_main extends AppCompatActivity {
     TextView fi_question;
     TextView fi_answer;
 
+    //SHORT ANSWER
+    View short_ans;
+    TextView sa_question;
+    EditText sa_answer;
+    Button sa_submit_button;
+
 
     int current_question = 0;
     int questions_in_quiz = 0;
@@ -117,6 +124,7 @@ public class quiz_main extends AppCompatActivity {
     public quiz createTestQuiz(boolean quiz_complete, boolean answers_complete)
     {
         //TEST QUIZ
+
         quiz test_quiz;
 
         question[] test_questions = new question[4];
@@ -209,6 +217,7 @@ public class quiz_main extends AppCompatActivity {
         multi_choice.setVisibility(View.GONE);
         multi_answer.setVisibility(View.GONE);
         fill_in.setVisibility(View.GONE);
+        short_ans.setVisibility(View.GONE);
 
         switch(current_quiz.questions[current_question].getType())
         {
@@ -253,6 +262,7 @@ public class quiz_main extends AppCompatActivity {
         multi_choice.setVisibility(View.GONE);
         multi_answer.setVisibility(View.GONE);
         fill_in.setVisibility(View.GONE);
+        sa_answer.setVisibility(View.GONE);
 
         //quiz_.questions[current_ + 1].
         switch(quiz_.questions[current_].getType())
@@ -321,11 +331,20 @@ public class quiz_main extends AppCompatActivity {
         fi_answer = (TextView)  fill_in.findViewById(R.id.fi_answer_field);
         fi_question = (TextView)  fill_in.findViewById(R.id.fi_question_field);
 
+        //SHORT_ANSWER
+        short_ans = (View) findViewById(R.id.quiz_short_answer);
+        sa_question = (TextView) short_ans.findViewById(R.id.sa_question_field);
+        sa_answer = (EditText) short_ans.findViewById(R.id.sa_answer_field);
+
         //multi_choice.setVisibility(View.GONE);
         multi_answer.setVisibility(View.GONE);
         fill_in.setVisibility(View.GONE);
 
         Bundle extras = getIntent().getExtras();
+
+        //REMOVE ASSIGNMENT BELOW
+//        test_bool = true;
+
         if(extras != null)
         {
             current_player = player.getInstance();//extras.getParcelable("current_player");

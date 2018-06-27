@@ -13,7 +13,10 @@ public class splash_screen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
+
         try {
+            player current_player = player.getInstance();
+            current_player.setQuizList();
             Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();

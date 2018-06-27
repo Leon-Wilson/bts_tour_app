@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 /*
 TODO: Research startActivityForResults() to handle data being updated when user presses back button (look into request codes)
-
+TODO: Create Test Cases for loadStart() functionality
 //*/
 public class nav_main extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -292,6 +292,10 @@ public class nav_main extends AppCompatActivity
             startActivityForResult(intent,1);
         } else if (id == R.id.nav_script) {
             Intent intent = new Intent(this, nav_script.class);
+            startActivityForResult(intent,1);
+        }
+        else if (id == R.id.nav_weather) {
+            Intent intent = new Intent(this, nav_weather.class);
             startActivityForResult(intent,1);
         }
 //        else if (id == R.id.nav_share) {

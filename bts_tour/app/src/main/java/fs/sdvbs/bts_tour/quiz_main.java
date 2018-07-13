@@ -251,6 +251,9 @@ public class quiz_main extends AppCompatActivity {
             case fill_in_blank:
                 fill_in.setVisibility(View.VISIBLE);
                 break;
+            case short_answer:
+                fill_in.setVisibility(View.VISIBLE);
+                break;
         }
     }
 
@@ -262,7 +265,7 @@ public class quiz_main extends AppCompatActivity {
         multi_choice.setVisibility(View.GONE);
         multi_answer.setVisibility(View.GONE);
         fill_in.setVisibility(View.GONE);
-        sa_answer.setVisibility(View.GONE);
+        short_ans.setVisibility(View.GONE);
 
         //quiz_.questions[current_ + 1].
         switch(quiz_.questions[current_].getType())
@@ -291,6 +294,10 @@ public class quiz_main extends AppCompatActivity {
                 break;
             case fill_in_blank:
                 fill_in.setVisibility(View.VISIBLE);
+                break;
+            case short_answer:
+                short_ans.setVisibility(View.VISIBLE);
+                sa_question.setText(current_quiz.questions[current_question].getQuestionText());
                 break;
         }
     }
@@ -335,6 +342,7 @@ public class quiz_main extends AppCompatActivity {
         short_ans = (View) findViewById(R.id.quiz_short_answer);
         sa_question = (TextView) short_ans.findViewById(R.id.sa_question_field);
         sa_answer = (EditText) short_ans.findViewById(R.id.sa_answer_field);
+        sa_submit_button = (Button) short_ans.findViewById(R.id.sa_submit_button);
 
         //multi_choice.setVisibility(View.GONE);
         multi_answer.setVisibility(View.GONE);
@@ -645,6 +653,22 @@ public class quiz_main extends AppCompatActivity {
                     {
                         selected[i] = false;
                     }
+                    current_question += 1;
+                    nextQuestion(current_question,current_quiz);
+                }
+                else
+                {
+                    results();
+                }
+            }
+        });
+
+        sa_submit_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO : Update DB
+                if(current_question < current_quiz.questions.length - 1)
+                {
                     current_question += 1;
                     nextQuestion(current_question,current_quiz);
                 }

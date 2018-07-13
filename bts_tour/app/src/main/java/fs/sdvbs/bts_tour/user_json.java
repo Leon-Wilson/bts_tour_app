@@ -48,11 +48,16 @@ public class user_json implements Parcelable{
 
     ArrayList<String> question_num = new ArrayList<>();
     ArrayList<String> multi_answers = new ArrayList<>();
+    ArrayList<String> importance_num = new ArrayList<>();
 
     //TODO: Add variable to firebase that tells how many total quizzes there are
     quiz[] quiz_list = new quiz[500];
     int quiz_num = 0;
-    int current_ = 1;
+    int quiz_current_ = 1;
+
+    script[] script_list = new script[500];
+    int script_num = 0;
+    int script_current = 1;
 
     public static user_json getInstance()
     {
@@ -67,6 +72,14 @@ public class user_json implements Parcelable{
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
+            //SCRIPT STUFF
+            String script_name = "";
+            String script_description = "";
+            String[] script_degrees = null;
+            String[] script_important = null;
+
+
+            //QUIZ STUFF
             String quiz_name = dataSnapshot.getKey().toString();
             Boolean quiz_complete = false;
             Boolean quiz_locked = false;
@@ -79,7 +92,29 @@ public class user_json implements Parcelable{
             {
                 if(data.hasChild("name"))
                 {
-                    //Log.d(dataSnapshot.getKey().toString(),test.child("name").getValue().toString());
+                    //Log.d(dataSnapshot.getKey().toString(), data.child("important").child("important_1").toString());
+                    /*
+                    PATH SPECIFIC HANDLING TO DIFFERENT AREAS OF DATABASE
+                    SCRIPT
+                    test.child("name")
+                    test.child("description")
+                    test.child("degrees")
+                    test.child("important")
+                    test.child("important").child("important_N")
+
+                     */
+                    int important_children = (int) data.child("important").getChildrenCount();
+
+                    script_name = data.child("name").getValue().toString();
+                    script_description = data.child("description").getValue().toString();
+
+                    script_important = new String[important_children];
+                    for(int i = 0; i < important_children; i++)
+                    {
+                        script_important[i] = data.child("important").child(importance_num.get(i)).getValue().toString();
+                    }
+                    //Log.d(dataSnapshot.getKey().toString(), "children " + important_children);
+                    //
                 }
                 else if(data.hasChild("questions"))
                 {
@@ -88,8 +123,8 @@ public class user_json implements Parcelable{
                     PATH SPECIFIC HANDLING TO DIFFERENT AREAS OF DATABASE
 
                     MULTI ANSWERS
-                    test.child("questions").child("q1").child("answers").child("a1").child("text").getValue().toString();
-                    test.child("questions").child("q1").child("answers").child("a1").child("correct").getValue().toString();
+                    test.child("questions").child("qN").child("answers").child("aN").child("text").getValue().toString();
+                    test.child("questions").child("qN").child("answers").child("aN").child("correct").getValue().toString();
 
                     SHORT ANSWER
 
@@ -118,6 +153,7 @@ public class user_json implements Parcelable{
                     {
                         multiple_choice temp_choice;
                         multi_select temp_select;
+                        short_answer temp_short;
 
                         boolean temp_already_correct = (boolean) data.child("questions").child(question_num.get(q_num)).child("already_correct").getValue();
                         String temp_question_text = data.child("questions").child(question_num.get(q_num)).child("text").getValue().toString();
@@ -127,10 +163,18 @@ public class user_json implements Parcelable{
 
                         for(int a_num = 0; a_num < 4; a_num++)
                         {
-                            String ans_text = data.child("questions").child(question_num.get(q_num)).child("answers").child(multi_answers.get(a_num)).child("text").getValue().toString();
-                            Boolean ans_correct = (Boolean) data.child("questions").child(question_num.get(q_num)).child("answers").child(multi_answers.get(a_num)).child("correct").getValue();
-                            answer temp_ans = new answer(ans_text, ans_correct);
-                            temp_ans_array[a_num] = temp_ans;
+                            if(temp_question_type == "short_answer")
+                            {
+                                String ans_text = data.child("questions").child(question_num.get(q_num)).child("answers").child(multi_answers.get(0)).child("text").getValue().toString();
+                                temp_ans_array[a_num] = new answer(ans_text,false);
+                            }
+                            else
+                            {
+                                String ans_text = data.child("questions").child(question_num.get(q_num)).child("answers").child(multi_answers.get(a_num)).child("text").getValue().toString();
+                                Boolean ans_correct = (Boolean) data.child("questions").child(question_num.get(q_num)).child("answers").child(multi_answers.get(a_num)).child("correct").getValue();
+                                answer temp_ans = new answer(ans_text, ans_correct);
+                                temp_ans_array[a_num] = temp_ans;
+                            }
                         }
 
                         switch(temp_question_type)
@@ -145,6 +189,10 @@ public class user_json implements Parcelable{
                                 temp_select.setAlreadyCorrect(temp_already_correct);
                                 quiz_questions[q_num] = temp_select;
                                 break;
+                            case "short_answer":
+                                temp_short = new short_answer(temp_question_text);
+                                temp_short.setAlreadyCorrect(temp_already_correct);
+                                quiz_questions[q_num] = temp_short;
 
                         }
                         /*if(temp_question_type == "multi_choice")
@@ -166,17 +214,23 @@ public class user_json implements Parcelable{
                     quiz_total_correct = Integer.valueOf(data.child("previous_total").getValue().toString());
                     quiz_total_questions = Integer.valueOf(data.child("previous_total").getValue().toString());
 
-                    Log.d(dataSnapshot.getKey().toString(), data.child("questions").child("q1").child("answers").child("a1").getValue().toString());
+                    //Log.d(dataSnapshot.getKey().toString(), data.child("questions").child("q1").child("answers").child("a1").getValue().toString());
                 }
 
+                if(script_important != null)
+                {
+                    script new_script = new script(script_name,script_description,script_degrees,script_important);
+                    script_list[script_num] = new_script;
+                    script_num++;
+                }
                 if(quiz_questions != null)
                 {
 
                     quiz new_quiz = new quiz(quiz_name, quiz_questions);
                     if(quiz_num % 2 != 0)
                     {
-                        quiz_list[quiz_num - current_] = new_quiz;
-                        current_++;
+                        quiz_list[quiz_num - quiz_current_] = new_quiz;
+                        quiz_current_++;
                     }
 
 
@@ -233,6 +287,10 @@ public class user_json implements Parcelable{
         multi_answers.add("a3");
         multi_answers.add("a4");
 
+        for(int i = 1; i <= 30; i++)
+        {
+            importance_num.add("important_" + String.valueOf(i));
+        }
         //go through each building
         for(int i = 0; i < buildings.size();i++)
         {
@@ -250,6 +308,10 @@ public class user_json implements Parcelable{
     public quiz[] getQuizzes()
     {
         return quiz_list;
+    }
+    public script[] getScripts()
+    {
+        return script_list;
     }
 
     public static final Creator<user_json> CREATOR = new Creator<user_json>() {

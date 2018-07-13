@@ -10,4 +10,18 @@ public class script {
     String description = "";
     String[] degrees;
     String[] importance;
+
+    public script(String name_, String description_, String[] degrees_, String[] importance_)
+    {
+        name = name_;
+        description = description_;
+        degrees = degrees_;
+        importance = importance_;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+    public String getDescription() {return description; }
 }

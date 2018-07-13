@@ -6,7 +6,7 @@ package fs.sdvbs.bts_tour;
 
 public class short_answer implements question {
 
-    question_types question_type = question_types.multiple_choice;
+    question_types question_type = question_types.short_answer;
 
     String question_text = "";
     answer[] answer_pool;
@@ -14,6 +14,11 @@ public class short_answer implements question {
     int building_num = -1;
     boolean is_correct = false;
     boolean already_answered_correctly = false;
+
+    short_answer(String question_text_)
+    {
+        question_text = question_text_;
+    }
 
     @Override
     public question_types getType() {
@@ -27,6 +32,8 @@ public class short_answer implements question {
 
     @Override
     public boolean isCorrect() {
+        //Send this to the server for checking
+
         return is_correct;
     }
 
@@ -42,11 +49,13 @@ public class short_answer implements question {
 
     @Override
     public answer[] getAnswers() {
-        return new answer[0];
+        return answer_pool;
     }
 
     @Override
     public answer getAnswer() {
         return null;
     }
+
+
 }

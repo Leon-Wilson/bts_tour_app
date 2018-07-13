@@ -85,7 +85,7 @@ public class nav_quiz extends AppCompatActivity {
     public void loadList()
     {
         int quiz_num = 0;
-        String[] quiz_names = new String[1];
+        String[] quiz_names;
 
         for(int i = 0; i < current_player.quizzes.length;i++)
         {

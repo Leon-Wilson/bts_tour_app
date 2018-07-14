@@ -13,6 +13,7 @@ TODO: (DONE) Implement Parceable into level system so that it can be written to 
 public class level_system implements Parcelable{
     int current_level;
     int level_cap;
+    String level_name = "Ground Crew";
 
     int current_points;
     int points_until_levelup;
@@ -25,6 +26,41 @@ public class level_system implements Parcelable{
         level_cap = 5;
         current_points = 0;
         points_until_levelup = 7;
+        setLevelName();
+    }
+
+    public void setLevelName()
+    {
+        switch(current_level)
+        {
+            case 1:
+                if(current_points > 0)
+                {
+                    level_name = "Nugget";
+                }
+                break;
+            case 2:
+                level_name = "Flight Attendant";
+                break;
+            case 3:
+                level_name = "Wingman";
+                break;
+            case 4:
+                level_name = "Co-Pilot";
+                break;
+            case 5:
+                if(current_points > points_until_levelup)
+                {
+                    level_name = "Air-Boss";
+                }
+                else
+                {
+                    level_name = "Pilot";
+                }
+                break;
+        }
+
+
     }
 
     public boolean LEVELUP()
@@ -34,6 +70,7 @@ public class level_system implements Parcelable{
             if(current_level < level_cap)
             {
                 current_level++;
+                setLevelName();
             }
             current_points = 0;
             points_until_levelup += 2;

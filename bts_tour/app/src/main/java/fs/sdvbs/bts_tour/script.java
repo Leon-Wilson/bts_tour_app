@@ -24,4 +24,8 @@ public class script {
         return name;
     }
     public String getDescription() {return description; }
+    public void setBuildingNum(int num_)
+    {
+        building_num = num_;
+    }
 }

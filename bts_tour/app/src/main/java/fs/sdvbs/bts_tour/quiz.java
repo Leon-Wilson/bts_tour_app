@@ -8,7 +8,7 @@ package fs.sdvbs.bts_tour;
 public class quiz {
     question[] questions;
 
-    String building_key;
+    int building_num;
     String quiz_name;
     int total_questions;
     int total_correct;
@@ -41,6 +41,11 @@ public class quiz {
             return true;
         }
         return false;
+    }
+
+    public void setBuildingNum(int num_)
+    {
+        building_num = num_;
     }
 
     public boolean isComplete()

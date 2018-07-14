@@ -13,5 +13,11 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="48dp" />
+
+        <TextView
+            android:id="@+id/results_correct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

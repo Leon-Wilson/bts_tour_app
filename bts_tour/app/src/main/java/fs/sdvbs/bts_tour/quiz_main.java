@@ -103,6 +103,11 @@ public class quiz_main extends AppCompatActivity {
 
     public void results()
     {
+        multi_choice.setVisibility(View.GONE);
+        multi_answer.setVisibility(View.GONE);
+        fill_in.setVisibility(View.GONE);
+        short_ans.setVisibility(View.GONE);
+
         //TODO: Create Results processing function
         current_player.stats.current_points += current_quiz.total_correct - current_quiz.previous_total;
         current_quiz.previous_total = current_quiz.total_correct;

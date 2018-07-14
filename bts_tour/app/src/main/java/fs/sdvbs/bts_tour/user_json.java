@@ -68,7 +68,7 @@ public class user_json implements Parcelable{
         return instance;
     }
 
-    ChildEventListener parser = new ChildEventListener() {
+    private ChildEventListener parser = new ChildEventListener() {
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
@@ -87,6 +87,7 @@ public class user_json implements Parcelable{
             int quiz_total_correct = 0;
             int quiz_total_questions = 0;
             question[] quiz_questions = null;
+            int building_num = 0;
 
             for(DataSnapshot data : dataSnapshot.getChildren())
             {
@@ -216,10 +217,15 @@ public class user_json implements Parcelable{
 
                     //Log.d(dataSnapshot.getKey().toString(), data.child("questions").child("q1").child("answers").child("a1").getValue().toString());
                 }
+                else if( data.getKey().contains("building_number"))
+                {
+                    building_num = Integer.valueOf(data.getValue().toString());
+                }
 
                 if(script_important != null)
                 {
                     script new_script = new script(script_name,script_description,script_degrees,script_important);
+                    new_script.setBuildingNum(building_num);
                     script_list[script_num] = new_script;
                     script_num++;
                 }
@@ -227,6 +233,7 @@ public class user_json implements Parcelable{
                 {
 
                     quiz new_quiz = new quiz(quiz_name, quiz_questions);
+                    new_quiz.setBuildingNum(building_num);
                     if(quiz_num % 2 != 0)
                     {
                         quiz_list[quiz_num - quiz_current_] = new_quiz;

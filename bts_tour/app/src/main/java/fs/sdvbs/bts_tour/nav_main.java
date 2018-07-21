@@ -30,8 +30,17 @@ public class nav_main extends AppCompatActivity
     ProgressBar player_progress;
     ListView mListview;
 
+    DrawerLayout drawer;
+    NavigationView nav_view; //= drawer.findViewById(R.id.nav_view);
+    View header_layout; //= nav_view.getHeaderView(0);
 
+    TextView player_name;
+    TextView level_name;
 
+    TextView next_level;
+    TextView curr_level; // = header_layout.findViewById(R.id.nav_draw_current_level);
+
+    ProgressBar progress_bar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +56,24 @@ public class nav_main extends AppCompatActivity
         player_progress.setMax(current_player.stats.points_until_levelup);
         player_progress.setProgress(current_player.stats.current_points);
 
+        drawer = findViewById(R.id.drawer_layout);
+        nav_view = drawer.findViewById(R.id.nav_view);
+        header_layout = nav_view.getHeaderView(0);
+
+        player_name = header_layout.findViewById(R.id.nav_draw_name);
+        level_name = header_layout.findViewById(R.id.nav_draw_level_name);
+        next_level = header_layout.findViewById(R.id.nav_draw_next_level);
+        curr_level = header_layout.findViewById(R.id.nav_draw_current_level);
+        progress_bar = header_layout.findViewById(R.id.nav_draw_progress);
+
+        player_name.setText(current_player.player_name);
+        level_name.setText(current_player.getStats().level_name);
+        curr_level.setText(String.valueOf(current_player.getStats().current_level));
+        next_level.setText(String.valueOf(current_player.getStats().current_level + 1));
+        //progress_bar.setMax(6);
+        //progress_bar.setProgress(3);
+        progress_bar.setMax(current_player.stats.points_until_levelup);
+        progress_bar.setProgress(current_player.getStats().current_points);
 
         TextView player_name = (TextView) findViewById(R.id.stat_name);
         player_name.setText(current_player.player_name);
@@ -130,6 +157,14 @@ public class nav_main extends AppCompatActivity
 
                 player_progress.setMax(current_player.stats.points_until_levelup);
                 player_progress.setProgress(current_player.stats.current_points);
+                
+                player_name.setText(current_player.player_name);
+                level_name.setText(current_player.getStats().level_name);
+                curr_level.setText(String.valueOf(current_player.getStats().current_level));
+                next_level.setText(String.valueOf(current_player.getStats().current_level + 1));
+
+                progress_bar.setMax(current_player.stats.points_until_levelup);
+                progress_bar.setProgress(current_player.stats.current_points);
 
                 TextView player_name = (TextView) findViewById(R.id.stat_name);
                 player_name.setText(current_player.player_name);
@@ -304,7 +339,12 @@ public class nav_main extends AppCompatActivity
 //
 //        }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        NavigationView nav_view = drawer.findViewById(R.id.nav_view);
+//        View header_layout = nav_view.getHeaderView(0);
+//
+//        TextView curr_level = header_layout.findViewById(R.id.nav_draw_current_level);
+//        curr_level.setText("TEST");
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

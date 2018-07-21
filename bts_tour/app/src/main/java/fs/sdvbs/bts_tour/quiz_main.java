@@ -11,9 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 public class quiz_main extends AppCompatActivity {
 
@@ -90,12 +94,23 @@ public class quiz_main extends AppCompatActivity {
     EditText sa_answer;
     Button sa_submit_button;
 
+    //RESULTS
+    View re;
+    TextView re_name;
+    TextView re_building;
+    TextView re_ratio;
+    ProgressBar re_progress;
+    Button re_exit;
+    ExpandableListView re_questions;
+
+
 
     int current_question = 0;
     int questions_in_quiz = 0;
     int current_score;
 
     quiz current_quiz;
+
 
 
 
@@ -107,10 +122,17 @@ public class quiz_main extends AppCompatActivity {
         multi_answer.setVisibility(View.GONE);
         fill_in.setVisibility(View.GONE);
         short_ans.setVisibility(View.GONE);
+        re.setVisibility(View.VISIBLE);
 
         //TODO: Create Results processing function
         current_player.stats.current_points += current_quiz.total_correct - current_quiz.previous_total;
         current_quiz.previous_total = current_quiz.total_correct;
+
+        re_name.setText(current_quiz.getName());
+        re_building.setText("Building " + current_quiz.building_num + ":");
+        re_ratio.setText("You've answered " + current_quiz.total_correct + " out of " + current_quiz.total_questions + " correctedly.");
+        re_progress.setProgress(current_quiz.total_correct);
+        re_progress.setMax(current_quiz.total_questions);
 
         if(current_player.stats.LEVELUP())
         {
@@ -123,7 +145,7 @@ public class quiz_main extends AppCompatActivity {
             Snackbar.make(findViewById(R.id.quiz_template), "You have answered enough to continue!", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
         }
-        onBackPressed();
+        //onBackPressed();
     }
 
     public quiz createTestQuiz(boolean quiz_complete, boolean answers_complete)
@@ -349,9 +371,19 @@ public class quiz_main extends AppCompatActivity {
         sa_answer = (EditText) short_ans.findViewById(R.id.sa_answer_field);
         sa_submit_button = (Button) short_ans.findViewById(R.id.sa_submit_button);
 
+        //RESULTS
+        re = (View) findViewById(R.id.quiz_results);
+        re_building = (TextView) re.findViewById(R.id.results_building);
+        re_name = (TextView) re.findViewById(R.id.result_name);
+        re_progress = (ProgressBar) re.findViewById(R.id.results_bar);
+        re_ratio = (TextView) re.findViewById(R.id.results_correct);
+        re_questions = (ExpandableListView) re.findViewById(R.id.results_questions);
+        re_exit = (Button) re.findViewById(R.id.exit_quiz_button);
+
         //multi_choice.setVisibility(View.GONE);
         multi_answer.setVisibility(View.GONE);
         fill_in.setVisibility(View.GONE);
+        re.setVisibility(View.GONE);
 
         Bundle extras = getIntent().getExtras();
 
@@ -681,6 +713,13 @@ public class quiz_main extends AppCompatActivity {
                 {
                     results();
                 }
+            }
+        });
+
+        re_exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
             }
         });
     }

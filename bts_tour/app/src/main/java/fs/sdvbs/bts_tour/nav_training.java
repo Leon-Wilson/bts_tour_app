@@ -43,7 +43,7 @@ public class nav_training extends AppCompatActivity {
     public void onBackPressed()
     {
         Intent intent = new Intent();
-        current_player.setName("Test User");
+        //current_player.setName("Test User");
         intent.putExtra("current_player", current_player);
         setResult(RESULT_OK, intent);
 

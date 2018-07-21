@@ -24,4 +24,7 @@
     <include
         android:id="@+id/quiz_short_answer"
         layout='@layout/short_answer_question_layout'></include>
+    <include
+        android:id="@+id/quiz_results"
+        layout="@layout/quiz_results_layout"></include>
 </android.support.constraint.ConstraintLayout>

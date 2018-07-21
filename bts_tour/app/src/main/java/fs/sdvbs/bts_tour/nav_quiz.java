@@ -36,10 +36,13 @@ public class nav_quiz extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 int selected_quiz = i;
-                Intent intent = new Intent(nav_quiz.this, quiz_main.class);
-                intent.putExtra("current_player",current_player);
+                Intent intent = new Intent(nav_quiz.this,quiz_pop.class);
                 intent.putExtra("selected_quiz", selected_quiz);
-                startActivityForResult(intent,1);
+                /*
+                intent.putExtra("current_player",current_player);
+                startActivityForResult(intent,1);*/
+
+                startActivity(intent);
             }
         });
         Bundle extras = getIntent().getExtras();

@@ -5,12 +5,8 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_training"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Training" />
-        <item
             android:id="@+id/nav_schedule"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@android:drawable/ic_menu_recent_history"
             android:title="Schedule" />
         <item
             android:id="@+id/nav_script"
@@ -18,24 +14,28 @@
             android:title="Script" />
         <item
             android:id="@+id/nav_maps"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@android:drawable/ic_dialog_map"
             android:title="Maps" />
-        <item
-            android:id="@+id/nav_quiz"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Quiz" />
         <item
             android:id="@+id/nav_progress"
             android:icon="@drawable/ic_menu_manage"
             android:title="Progress" />
         <item
-            android:id="@+id/nav_contact"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Contact" />
+            android:id="@+id/nav_quiz"
+            android:icon="@android:drawable/ic_input_get"
+            android:title="Quiz" />
         <item
             android:id="@+id/nav_weather"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@android:drawable/presence_invisible"
             android:title="Weather" />
+        <item
+            android:id="@+id/nav_contact"
+            android:icon="@android:drawable/stat_sys_phone_call"
+            android:title="Contact" />
+        <item
+            android:id="@+id/nav_training"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Training" />
         <item
             android:id="@+id/nav_help"
             android:icon="@drawable/ic_menu_manage"

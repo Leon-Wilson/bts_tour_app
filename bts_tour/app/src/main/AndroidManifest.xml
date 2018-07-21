@@ -98,6 +98,10 @@
             android:name=".script_main"
             android:label="@string/title_activity_script_main"
             android:theme="@style/app_theme.NoActionBar"></activity>
+        <activity android:name=".quiz_pop"
+            android:theme="@style/app_theme.pop_up">
+
+        </activity>
     </application>
 
 </manifest>

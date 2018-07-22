@@ -1,6 +1,8 @@
 package fs.sdvbs.bts_tour;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -65,11 +67,21 @@ public class nav_main extends AppCompatActivity
         next_level = header_layout.findViewById(R.id.nav_draw_next_level);
         curr_level = header_layout.findViewById(R.id.nav_draw_current_level);
         progress_bar = header_layout.findViewById(R.id.nav_draw_progress);
+        ColorStateList color_list = ColorStateList.valueOf(getResources().getColor(R.color.progress_tints,null));
+        progress_bar.setProgressTintList(color_list);
+        progress_bar.setProgressBackgroundTintList(color_list);
+        progress_bar.setProgressTintMode(null);
 
         player_name.setText(current_player.player_name);
         level_name.setText(current_player.getStats().level_name);
-        curr_level.setText(String.valueOf(current_player.getStats().current_level));
-        next_level.setText(String.valueOf(current_player.getStats().current_level + 1));
+        curr_level.setText("Level " + String.valueOf(current_player.getStats().current_level));
+        next_level.setText("Level " + String.valueOf(current_player.getStats().current_level + 1));
+
+//        player_name.setTextSize(15);
+//        level_name.setTextSize(12);
+//        curr_level.setTextSize(9);
+//        next_level.setTextSize(9);
+
         //progress_bar.setMax(6);
         //progress_bar.setProgress(3);
         progress_bar.setMax(current_player.stats.points_until_levelup);
@@ -157,11 +169,11 @@ public class nav_main extends AppCompatActivity
 
                 player_progress.setMax(current_player.stats.points_until_levelup);
                 player_progress.setProgress(current_player.stats.current_points);
-                
+
                 player_name.setText(current_player.player_name);
                 level_name.setText(current_player.getStats().level_name);
-                curr_level.setText(String.valueOf(current_player.getStats().current_level));
-                next_level.setText(String.valueOf(current_player.getStats().current_level + 1));
+                curr_level.setText("Level " + String.valueOf(current_player.getStats().current_level));
+                next_level.setText("Level " + String.valueOf(current_player.getStats().current_level + 1));
 
                 progress_bar.setMax(current_player.stats.points_until_levelup);
                 progress_bar.setProgress(current_player.stats.current_points);

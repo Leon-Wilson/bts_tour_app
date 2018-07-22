@@ -15,19 +15,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <ImageView
+            android:id="@+id/imageView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/tour_troubleshooting_rain"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp" />
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="match_parent"
-                android:layout_height="742dp"
-                android:scaleType="fitXY"
-                app:srcCompat="@drawable/tour_troubleshooting_rain"
-                tools:layout_editor_absoluteX="0dp"
-                tools:layout_editor_absoluteY="0dp" />
-        </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

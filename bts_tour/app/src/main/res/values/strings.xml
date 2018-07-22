@@ -33,4 +33,8 @@
     <string name="title_activity_quiz">quiz</string>
     <string name="title_activity_sign_up">Sign Up</string>
     <string name="title_activity_script_main">script_main</string>
+
+    <!--Strings script-->
+    <string name="script_description_header">What is it?</string>
+    <string name="script_importances_header">Interesting Information : </string>
 </resources>

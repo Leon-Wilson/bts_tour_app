@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+    android:id="@+id/multiple_choice_layout"
+    layout="@layout/layout_multiple_choice"
+    ></include>
+
+    <include
+        android:id="@+id/multiple_select_layout"
+        layout="@layout/layout_multiple_select"
+        ></include>
+
+    <include
+        android:id="@+id/short_answer_layout"
+        layout="@layout/layout_short_answer"
+        ></include>
+
+    <include
+        android:id="@+id/results_layout"
+        layout="@layout/layout_quiz_results">
+
+    </include>
+</android.support.constraint.ConstraintLayout>

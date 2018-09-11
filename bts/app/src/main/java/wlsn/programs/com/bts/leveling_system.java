@@ -79,7 +79,10 @@ public class leveling_system {
 
     public static leveling_system getInstance(String user_key)
     {
-        instance = new leveling_system(user_key);
+        if(instance == null)
+        {
+            instance = new leveling_system(user_key);
+        }
         return instance;
     }
 

@@ -41,7 +41,7 @@ public class quiz {
         if(total_correct > (total_questions - (total_questions * 0.25)))
         {
             complete = true;
-            return true;
+            return complete;
         }
         return false;
     }
@@ -83,5 +83,19 @@ public class quiz {
     public boolean getLock()
     {
         return locked;
+    }
+    public void setName(String _name)
+    {
+        name = _name;
+    }
+
+    public void setTotalCorrect(int _total_correct)
+    {
+        total_correct = _total_correct;
+    }
+
+    public void setPreviousTotal(int _previous_total)
+    {
+        previous_total = _previous_total;
     }
 }

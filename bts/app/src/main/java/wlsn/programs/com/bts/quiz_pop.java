@@ -58,23 +58,7 @@ public class quiz_pop extends Activity {
             int quiz = extras.getInt("quiz");
             int starting_point = 0;
             //TODO: Redo this to dynamically assign where each section starts or sort the list beforehand
-            switch(building)
-            {
-                case 0:
-                    starting_point = 18;
-                    break;
-                case 1:
-                    starting_point = 3;
-                    break;
-                case 2:
-                    starting_point = 11;
-                    break;
-                case 3:
-                    starting_point = 0;
-                    break;
-                default:
-                    break;
-            }
+            starting_point = current_user.getData().getStartingPos(building);
 
             selected_quiz = starting_point + quiz;
         }

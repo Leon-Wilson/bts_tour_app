@@ -41,7 +41,6 @@ public class frag_login extends Fragment{
         //returning our layout file
         //change R.layout.yourlayoutfilename for each of your fragments
         View view = inflater.inflate(R.layout.frag_login, container, false);
-
         return view;
     }
 
@@ -112,7 +111,8 @@ public class frag_login extends Fragment{
                                     }
                                     else
                                     {
-                                        Toast.makeText(getContext(), "FAILURE", Toast.LENGTH_SHORT).show();
+                                        String err = task.getException().getMessage();
+                                        Toast.makeText(getContext(), err, Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });

@@ -14,11 +14,20 @@ import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 /**
  * Created by Leon on 8/4/18.
  */
 
 public class quiz_view extends Fragment {
+
+    FirebaseAuth mAuth;
+    FirebaseDatabase fDb;
+    DatabaseReference user_quiz;
+    DatabaseReference user_stats;
 
     user current_user;
     View multi_choice;
@@ -83,6 +92,12 @@ public class quiz_view extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         current_user = user.getInstance();
 
+        mAuth = FirebaseAuth.getInstance();
+        String user_key = mAuth.getCurrentUser().getUid().toString();
+        fDb = FirebaseDatabase.getInstance();
+
+
+
         //QUESTION LAYOUT
         multi_choice = view.findViewById(R.id.multiple_choice_layout);
         mc_question = multi_choice.findViewById(R.id.mc_text);
@@ -122,6 +137,8 @@ public class quiz_view extends Fragment {
         int selected_quiz = bundle.getInt("quiz");
         current_quiz = current_user.getData().getQuizzes()[selected_quiz];
 
+        user_quiz = fDb.getReference("users/" + user_key+"/quizzes/" + current_quiz.getName());
+        user_stats = fDb.getReference("users/" + user_key+"/progress/");
         startQuiz();
 
         mc_choice_1.setOnClickListener(new View.OnClickListener() {
@@ -134,6 +151,7 @@ public class quiz_view extends Fragment {
                     {
                         current_quiz.total_correct += 1;
                         current_quiz.getQuestions()[current_question].setAlreadyCorrect(true);
+                        user_quiz.child("questions").child("question_" +String.valueOf(current_question + 1)).child("already_correct").setValue(true);
 
                         Snackbar.make(view, "NEW CORRECT ANSWER!!!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
@@ -172,6 +190,8 @@ public class quiz_view extends Fragment {
                     {
                         current_quiz.total_correct += 1;
                         current_quiz.getQuestions()[current_question].setAlreadyCorrect(true);
+                        user_quiz.child("questions").child("question_" +String.valueOf(current_question + 1)).child("already_correct").setValue(current_quiz.getQuestions()[current_question].alreadyCorrect());
+
                         Snackbar.make(view, "NEW CORRECT ANSWER!!!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     }
@@ -209,6 +229,8 @@ public class quiz_view extends Fragment {
                     {
                         current_quiz.total_correct += 1;
                         current_quiz.getQuestions()[current_question].setAlreadyCorrect(true);
+                        user_quiz.child("questions").child("question_" +String.valueOf(current_question)).child("already_correct").setValue(true);
+
                         Snackbar.make(view, "NEW CORRECT ANSWER!!!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     }
@@ -246,6 +268,8 @@ public class quiz_view extends Fragment {
                     {
                         current_quiz.total_correct += 1;
                         current_quiz.getQuestions()[current_question].setAlreadyCorrect(true);
+                        user_quiz.child("questions").child("question_" +String.valueOf(current_question + 1)).child("already_correct").setValue(current_quiz.getQuestions()[current_question].alreadyCorrect());
+
                         Snackbar.make(view, "NEW CORRECT ANSWER!!!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     }
@@ -366,6 +390,8 @@ public class quiz_view extends Fragment {
                     {
                         current_quiz.total_correct += 1;
                         current_quiz.getQuestions()[current_question].setAlreadyCorrect(true);
+                        user_quiz.child("questions").child("question_" +String.valueOf(current_question)).child("already_correct").setValue(current_quiz.getQuestions()[current_question].alreadyCorrect());
+
                         Snackbar.make(view, "NEW CORRECT ANSWER!!!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     }
@@ -535,11 +561,18 @@ public class quiz_view extends Fragment {
 
         if(current_user.getStats().LEVELUP())
         {
+            user_stats.child("current_level").setValue(current_user.getStats().current_level);
+            user_stats.child("level_name").setValue(current_user.getStats().level_name);
+            user_stats.child("points_until_levelup").setValue(current_user.getStats().points_until_levelup);
         }
+        user_stats.child("current_points").setValue(current_user.getStats().current_points);
 
         if(current_quiz.quizComplete())
         {
+            user_quiz.child("is_complete").setValue(true);
         }
+        user_quiz.child("previous_total").setValue(current_quiz.previous_total);
+        user_quiz.child("total_correct").setValue(current_quiz.total_correct);
         //onBackPressed();
     }
 }

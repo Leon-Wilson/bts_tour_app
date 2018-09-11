@@ -40,7 +40,9 @@ public class main extends AppCompatActivity
         if(mAuth != null)
         {
             firebase_user = mAuth.getCurrentUser();
-            user t = user.getInstance(firebase_user.getUid());
+            if(firebase_user != null) {
+                user t = user.getInstance(firebase_user.getUid());
+            }
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

@@ -48,16 +48,16 @@ public class script_view extends Fragment {
         switch(building)
         {
             case 0:
-                starting_point = 18;
+                starting_point = current_user.getData().getStartingPos(building);
                 break;
             case 1:
-                starting_point = 3;
+                starting_point = current_user.getData().getStartingPos(building);
                 break;
             case 2:
-                starting_point = 11;
+                starting_point = current_user.getData().getStartingPos(building);
                 break;
             case 3:
-                starting_point = 0;
+                starting_point = current_user.getData().getStartingPos(building);
                 break;
             default:
                 break;

@@ -61,7 +61,10 @@ public class frag_script extends Fragment {
         {
            buildings.add("building" + String.valueOf(i));
         }
-
+        if (current_user.getData().getScripts().length == 1)
+        {
+            current_user.getData().Load();
+        }
         for(int i = 0; i < current_user.getData().getScripts().length;i++)
         {
             script temp_script = current_user.getData().getScripts()[i];
@@ -84,6 +87,7 @@ public class frag_script extends Fragment {
                     break;
             }
         }
+
 
         for(int i = 0; i < buildings.size(); i++)
         {

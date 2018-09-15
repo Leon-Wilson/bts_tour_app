@@ -1,6 +1,7 @@
 package wlsn.programs.com.bts;
 
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -41,7 +43,7 @@ public class main extends AppCompatActivity
         {
             firebase_user = mAuth.getCurrentUser();
             if(firebase_user != null) {
-                user t = user.getInstance(firebase_user.getUid());
+                current_user = user.getInstance(firebase_user.getUid());
             }
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -51,7 +53,20 @@ public class main extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
         navigationView.setNavigationItemSelectedListener(this);
+
+        View nav_header = navigationView.getHeaderView(0);
+        TextView user_name = nav_header.findViewById(R.id.nav_user_name);
+        TextView user_level_name = nav_header.findViewById(R.id.nav_user_level_name);
+        TextView current_level = nav_header.findViewById(R.id.nav_level);
+        TextView next_level = nav_header.findViewById(R.id.nav_next_level);
+
+        user_name.setText(current_user.getName());
+        user_level_name.setText(current_user.getStats().level_name);
+        current_level.setText(String.valueOf(current_user.getStats().current_level));
+        next_level.setText(String.valueOf(current_user.getStats().current_level + 1));
+
 
         Bundle extras = getIntent().getExtras();
         if(extras != null)

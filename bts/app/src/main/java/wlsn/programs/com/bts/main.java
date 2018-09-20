@@ -16,10 +16,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 public class main extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -37,6 +41,7 @@ public class main extends AppCompatActivity
 
         //current_user = user.getInstance();
         mAuth = FirebaseAuth.getInstance();
+        stat_listener listener = new stat_listener();
 
 
         if(mAuth != null)
@@ -62,11 +67,22 @@ public class main extends AppCompatActivity
         TextView current_level = nav_header.findViewById(R.id.nav_level);
         TextView next_level = nav_header.findViewById(R.id.nav_next_level);
 
-        user_name.setText(current_user.getName());
-        user_level_name.setText(current_user.getStats().level_name);
-        current_level.setText(String.valueOf(current_user.getStats().current_level));
-        next_level.setText(String.valueOf(current_user.getStats().current_level + 1));
-
+        if(current_user != null)
+        {
+            if(current_user.getStats().propertyChangeSupport.getPropertyChangeListeners().length == 0) {
+                current_user.getStats().addPropertyChangeListener(listener);
+            }
+            user_name.setText(current_user.getName());
+            user_level_name.setText(current_user.getStats().level_name);
+            current_level.setText(String.valueOf(current_user.getStats().current_level));
+            if(current_user.getStats().current_level < current_user.getStats().level_cap) {
+                next_level.setText(String.valueOf(current_user.getStats().current_level + 1));
+            }
+            else
+            {
+                next_level.setText("MAX!");
+            }
+        }
 
         Bundle extras = getIntent().getExtras();
         if(extras != null)
@@ -103,7 +119,7 @@ public class main extends AppCompatActivity
             {
                 current_user = user.getInstance();
 
-                displayScreen(R.id.nav_training);
+                //displayScreen(R.id.nav_training);
             }
             else
             {
@@ -176,28 +192,28 @@ public class main extends AppCompatActivity
         }
 
         if(firebase_user != null) {
-            if (id == R.id.nav_training) {
+            /*if (id == R.id.nav_training) {
                 // Handle the camera action
                 fragment = new frag_main();
             } else if (id == R.id.nav_schedule) {
 
-            } else if (id == R.id.nav_weather) {
+            } else */if (id == R.id.nav_weather) {
                 fragment = new frag_weather();
             } else if (id == R.id.nav_scripts) {
                 fragment = new frag_script();
-            } else if (id == R.id.nav_maps) {
+            }/* else if (id == R.id.nav_maps) {
 
-            } else if (id == R.id.nav_quizzes) {
+            }*/ else if (id == R.id.nav_quizzes) {
                 fragment = new frag_quiz();
             } else if (id == R.id.nav_progress) {
 
             } else if (id == R.id.nav_contact) {
 
-            } else if (id == R.id.nav_settings) {
+            } /*else if (id == R.id.nav_settings) {
 
             } else if (id == R.id.nav_help) {
 
-            }
+            }*/
         }
 
         if (id == R.id.nav_sign_out)
@@ -214,5 +230,52 @@ public class main extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+    }
+
+    public class stat_listener implements PropertyChangeListener
+    {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View nav_header = navigationView.getHeaderView(0);
+        TextView user_level_name = nav_header.findViewById(R.id.nav_user_level_name);
+        TextView current_level = nav_header.findViewById(R.id.nav_level);
+        TextView next_level = nav_header.findViewById(R.id.nav_next_level);
+        ProgressBar progressBar = nav_header.findViewById(R.id.nav_user_progress);
+        @Override
+        public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
+            if (propertyChangeEvent.getPropertyName().equals("current_points"))
+            {
+                progressBar.setProgress(current_user.getStats().current_points);
+                progressBar.setMax(current_user.getStats().points_until_levelup);
+            }
+            /*
+            if (propertyChangeEvent.getPropertyName().equals("level_cap"))
+            {
+
+            }*/
+            if (propertyChangeEvent.getPropertyName().equals("current_level"))
+            {
+                current_level.setText(String.valueOf(current_user.getStats().current_level));
+                if(current_user.getStats().current_level < current_user.getStats().level_cap) {
+                    next_level.setText(String.valueOf(current_user.getStats().current_level + 1));
+                }
+                else
+                {
+                    next_level.setText("MAX!");
+                }
+            }
+
+
+            if (propertyChangeEvent.getPropertyName().equals("level_name"))
+            {
+                user_level_name.setText(current_user.getStats().level_name);
+            }
+
+            if (propertyChangeEvent.getPropertyName().equals("points_until_levelup"))
+            {
+                progressBar.setMax(current_user.getStats().current_points);
+                progressBar.setProgress(current_user.getStats().current_points);
+            }
+
+        }
     }
 }

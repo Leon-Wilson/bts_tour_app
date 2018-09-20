@@ -9,15 +9,20 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
 /**
  * Created by Leon on 8/7/18.
  */
 
 public class leveling_system {
 
+    protected PropertyChangeSupport propertyChangeSupport;
     public static leveling_system instance = null;
     int current_level;
-    int level_cap;
+    int level_cap = 5;
     String level_name = "Ground Crew";
 
     int current_points;
@@ -36,28 +41,55 @@ public class leveling_system {
 
     public leveling_system(String user_key)
     {
+        propertyChangeSupport = new PropertyChangeSupport(this);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("users").child(user_key).child("progress");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                switch (dataSnapshot.getKey())
-                {
-                    case "current_points":
-                        current_points = Integer.valueOf(dataSnapshot.getValue().toString());
-                        break;
-                    case "current_level":
-                        current_level = Integer.valueOf(dataSnapshot.getValue().toString());
-                        break;
-                    case "level_cap":
-                        level_cap= Integer.valueOf(dataSnapshot.getValue().toString());
-                        break;
-                    case "level_name":
-                        level_name = dataSnapshot.getValue().toString();
-                        break;
-                    case "points_until_levelup":
-                        points_until_levelup = Integer.valueOf(dataSnapshot.getValue().toString());
-                        break;
+                for(DataSnapshot data : dataSnapshot.getChildren()) {
+                    if(data.getKey().contentEquals("current_points"))
+                    {
+                        current_points = Integer.valueOf(data.getValue().toString());
+                        propertyChangeSupport.firePropertyChange("current_points", -1,current_points);
+                    }
+                    else if(data.getKey().contentEquals("current_level"))
+                    {
+                        current_level = Integer.valueOf(data.getValue().toString());
+                        propertyChangeSupport.firePropertyChange("current_level", -1,current_level);
+                    }
+                    else if(data.getKey().contentEquals("level_cap"))
+                    {
+                        level_cap = Integer.valueOf(data.getValue().toString());
+                        propertyChangeSupport.firePropertyChange("level_cap", -1,level_cap);
+                    }
+                    else if(data.getKey().contentEquals("level_name"))
+                    {
+                        level_name = data.getValue().toString();
+                        propertyChangeSupport.firePropertyChange("level_name", "",level_name);
+                    }
+                    else if(data.getKey().contentEquals("points_until_levelup"))
+                    {
+                        points_until_levelup = Integer.valueOf(data.getValue().toString());
+                        propertyChangeSupport.firePropertyChange("points_until_levelup", -1,points_until_levelup);
+                    }
+                    /*switch (data.getKey()) {
+                        case "current_points":
+                            current_points = Integer.valueOf(dataSnapshot.getValue().toString());
+                            continue;
+                        case "current_level":
+                            current_level = Integer.valueOf(dataSnapshot.getValue().toString());
+                            continue;
+                        case "level_cap":
+                            level_cap = Integer.valueOf(dataSnapshot.getValue().toString());
+                            continue;
+                        case "level_name":
+                            level_name = dataSnapshot.getValue().toString();
+                            continue;
+                        case "points_until_levelup":
+                            points_until_levelup = Integer.valueOf(dataSnapshot.getValue().toString());
+                            continue;
+                    }*/
                 }
             }
 
@@ -66,6 +98,10 @@ public class leveling_system {
 
             }
         });
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(listener);
     }
 
     public static leveling_system getInstance()
@@ -88,6 +124,7 @@ public class leveling_system {
 
     public boolean LEVELUP()
     {
+        setLevelName();
         if(current_points >= points_until_levelup)
         {
             if(current_level < level_cap)
@@ -175,4 +212,6 @@ public class leveling_system {
 
 
     }
+
+
 }

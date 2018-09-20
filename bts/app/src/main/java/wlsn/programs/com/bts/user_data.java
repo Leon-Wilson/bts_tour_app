@@ -18,6 +18,7 @@ import java.util.HashMap;
 
 
 public class user_data {
+    
     private static user_data instance = null;
     public static user_data getInstance()
     {

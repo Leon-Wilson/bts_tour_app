@@ -19,4 +19,11 @@ public class frag_weather extends Fragment {
         //change R.layout.yourlayoutfilename for each of your fragments
         return inflater.inflate(R.layout.frag_weather, container, false);
     }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        getActivity().setTitle("Weather");
+    }
 }

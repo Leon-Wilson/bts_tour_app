@@ -191,6 +191,11 @@ public class frag_quiz extends Fragment {
                 return true;
             }
         });
+
+        quiz_listings.expandGroup(0);
+        quiz_listings.expandGroup(1);
+        quiz_listings.expandGroup(2);
+        quiz_listings.expandGroup(3);
     }
 
 

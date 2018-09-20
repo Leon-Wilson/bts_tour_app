@@ -153,19 +153,19 @@ public class quiz_view extends Fragment {
                         current_quiz.getQuestions()[current_question].setAlreadyCorrect(true);
                         user_quiz.child("questions").child("question_" +String.valueOf(current_question + 1)).child("already_correct").setValue(true);
 
-                        Snackbar.make(view, "NEW CORRECT ANSWER!!!", Snackbar.LENGTH_LONG)
+                        Snackbar.make(view, "Congratulations! That's a new correct answer!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     }
                     else
                     {
-                        Snackbar.make(view, "GOOD MEMORY!!!", Snackbar.LENGTH_LONG)
+                        Snackbar.make(view, "Great memory! Keep it up!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     }
                     current_score += 1;
                 }
                 else
                 {
-                    Snackbar.make(view, "WRONG", Snackbar.LENGTH_LONG)
+                    Snackbar.make(view, "Sorry, that was incorrect.", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
 
@@ -192,19 +192,19 @@ public class quiz_view extends Fragment {
                         current_quiz.getQuestions()[current_question].setAlreadyCorrect(true);
                         user_quiz.child("questions").child("question_" +String.valueOf(current_question + 1)).child("already_correct").setValue(current_quiz.getQuestions()[current_question].alreadyCorrect());
 
-                        Snackbar.make(view, "NEW CORRECT ANSWER!!!", Snackbar.LENGTH_LONG)
+                        Snackbar.make(view, "Congratulations! That's a new correct answer!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     }
                     else
                     {
-                        Snackbar.make(view, "GOOD MEMORY!!!", Snackbar.LENGTH_LONG)
+                        Snackbar.make(view, "Great memory! Keep it up!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     }
                     current_score += 1;
                 }
                 else
                 {
-                    Snackbar.make(view, "WRONG", Snackbar.LENGTH_LONG)
+                    Snackbar.make(view, "Sorry, that was incorrect.", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
 
@@ -231,19 +231,19 @@ public class quiz_view extends Fragment {
                         current_quiz.getQuestions()[current_question].setAlreadyCorrect(true);
                         user_quiz.child("questions").child("question_" +String.valueOf(current_question)).child("already_correct").setValue(true);
 
-                        Snackbar.make(view, "NEW CORRECT ANSWER!!!", Snackbar.LENGTH_LONG)
+                        Snackbar.make(view, "Congratulations! That's a new correct answer!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     }
                     else
                     {
-                        Snackbar.make(view, "GOOD MEMORY!!!", Snackbar.LENGTH_LONG)
+                        Snackbar.make(view, "Great memory! Keep it up!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     }
                     current_score += 1;
                 }
                 else
                 {
-                    Snackbar.make(view, "WRONG", Snackbar.LENGTH_LONG)
+                    Snackbar.make(view, "Sorry, that was incorrect.", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
 
@@ -270,19 +270,19 @@ public class quiz_view extends Fragment {
                         current_quiz.getQuestions()[current_question].setAlreadyCorrect(true);
                         user_quiz.child("questions").child("question_" +String.valueOf(current_question + 1)).child("already_correct").setValue(current_quiz.getQuestions()[current_question].alreadyCorrect());
 
-                        Snackbar.make(view, "NEW CORRECT ANSWER!!!", Snackbar.LENGTH_LONG)
+                        Snackbar.make(view, "Congratulations! That's a new correct answer!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     }
                     else
                     {
-                        Snackbar.make(view, "GOOD MEMORY!!!", Snackbar.LENGTH_LONG)
+                        Snackbar.make(view, "Great memory! Keep it up!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     }
                     current_score += 1;
                 }
                 else
                 {
-                    Snackbar.make(view, "WRONG", Snackbar.LENGTH_LONG)
+                    Snackbar.make(view, "Sorry, that was incorrect.", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
 
@@ -392,19 +392,19 @@ public class quiz_view extends Fragment {
                         current_quiz.getQuestions()[current_question].setAlreadyCorrect(true);
                         user_quiz.child("questions").child("question_" +String.valueOf(current_question)).child("already_correct").setValue(current_quiz.getQuestions()[current_question].alreadyCorrect());
 
-                        Snackbar.make(view, "NEW CORRECT ANSWER!!!", Snackbar.LENGTH_LONG)
+                        Snackbar.make(view, "Congratulations! That's a new correct answer!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     }
                     else
                     {
-                        Snackbar.make(view, "GOOD MEMORY!!!", Snackbar.LENGTH_LONG)
+                        Snackbar.make(view, "Great memory! Keep it up!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     }
                     current_score += 1;
                 }
                 else
                 {
-                    Snackbar.make(view, "WRONG", Snackbar.LENGTH_LONG)
+                    Snackbar.make(view, "Sorry, that was incorrect.", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
 
@@ -433,6 +433,9 @@ public class quiz_view extends Fragment {
             @Override
             public void onClick(View view) {
                 //TODO : Update DB
+                user_quiz.child("questions").child("question_" +String.valueOf(current_question + 1)).child("answers").child("answer").child("text").setValue(sa_answer.getText().toString());
+                Snackbar.make(view, "Your answer has been submitted!", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
                 if(current_question < current_quiz.getQuestions().length - 1)
                 {
                     current_question += 1;
@@ -569,7 +572,7 @@ public class quiz_view extends Fragment {
 
         if(current_quiz.quizComplete())
         {
-            user_quiz.child("is_complete").setValue(true);
+            //user_quiz.child("is_complete").setValue(true);
         }
         user_quiz.child("previous_total").setValue(current_quiz.previous_total);
         user_quiz.child("total_correct").setValue(current_quiz.total_correct);

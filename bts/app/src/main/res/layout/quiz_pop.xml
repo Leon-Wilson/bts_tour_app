@@ -89,7 +89,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:background="@drawable/button_sumbit"
-            android:text="Button"
+            android:text="Start"
             android:textColor="@android:color/white"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"

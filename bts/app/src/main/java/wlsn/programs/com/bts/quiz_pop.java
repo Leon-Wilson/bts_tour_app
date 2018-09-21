@@ -57,14 +57,15 @@ public class quiz_pop extends Activity {
             int building = extras.getInt("building");
             int quiz = extras.getInt("quiz");
             int starting_point = 0;
-            //TODO: Redo this to dynamically assign where each section starts or sort the list beforehand
+
             starting_point = current_user.getData().getStartingPos(building);
 
             selected_quiz = starting_point + quiz;
         }
 
         TextView pop_name = (TextView)findViewById(R.id.pop_name);
-        pop_name.setText(current_user.getData().getQuizzes()[selected_quiz].getName());
+        String nameq = current_user.getData().getQuizzes()[selected_quiz].getName();
+        pop_name.setText(nameq);
 
         TextView pop_ratio = (TextView)findViewById(R.id.pop_ratio);
         total_correct = current_user.getData().getQuizzes()[selected_quiz].total_correct;

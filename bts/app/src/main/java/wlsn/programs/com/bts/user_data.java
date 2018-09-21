@@ -18,7 +18,7 @@ import java.util.HashMap;
 
 
 public class user_data {
-    
+
     private static user_data instance = null;
     public static user_data getInstance()
     {
@@ -67,6 +67,8 @@ public class user_data {
     int b4_start=0;
     int unknown_start = 0;
 
+    private boolean sorted = false;
+    private boolean trimmed = false;
     public user_data()
     {
     fDatabase = FirebaseDatabase.getInstance();
@@ -503,37 +505,32 @@ public class user_data {
 
     public void trimQuizzes()
     {
-        int quiz_num = 0;
+        if(!trimmed) {
+            int quiz_num = 0;
 
-        for(int i = 0; i < temp_quiz_list.length;i++)
-        {
-            if(temp_quiz_list[i] == null)
-            {
-                quiz_num = i;
-                break;
+            for (int i = 0; i < temp_quiz_list.length; i++) {
+                if (temp_quiz_list[i] == null) {
+                    quiz_num = i;
+                    break;
+                }
             }
-        }
 
-        if(quiz_num == 0)
-        {
-            quiz_num = 1;
-            quiz_list = new quiz[quiz_num];
-            quiz_list[0] = new quiz();
-            quiz_list[0].setBuildingNum(1);
-        }
-        else if(quiz_num > temp_quiz_list.length)
-        {
-            quiz_num = 1;
-            quiz_list = new quiz[quiz_num];
-            quiz_list[0] = new quiz();
-            quiz_list[0].setName("We found more quizzes than expected");
-        }
-        else
-        {
-            quiz_list = new quiz[quiz_num];
-            for(int j = 0; j < quiz_num; j++)
-            {
-                quiz_list[j] = temp_quiz_list[j];
+            if (quiz_num == 0) {
+                quiz_num = 1;
+                quiz_list = new quiz[quiz_num];
+                quiz_list[0] = new quiz();
+                quiz_list[0].setBuildingNum(1);
+            } else if (quiz_num > temp_quiz_list.length) {
+                quiz_num = 1;
+                quiz_list = new quiz[quiz_num];
+                quiz_list[0] = new quiz();
+                quiz_list[0].setName("We found more quizzes than expected");
+            } else {
+                quiz_list = new quiz[quiz_num];
+                for (int j = 0; j < quiz_num; j++) {
+                    quiz_list[j] = temp_quiz_list[j];
+                }
+                trimmed = true;
             }
         }
     }
@@ -597,71 +594,76 @@ public class user_data {
 
     public void sortQuizzes()
     {
-        boolean sorted = false;
-        int A = 0;
-        int B = 1;
-        int total_quizzes = quiz_list.length;
-        int b1_size = 0;
-        int b2_size = 0;
-        int b3_size = 0;
-        int b4_size = 0;
-        int unknown_size = 0;
-
-        ArrayList<quiz> b1_quizzes = new ArrayList<>();
-        ArrayList<quiz> b2_quizzes = new ArrayList<>();
-        ArrayList<quiz> b3_quizzes = new ArrayList<>();
-        ArrayList<quiz> b4_quizzes = new ArrayList<>();
-        ArrayList<quiz> unknown_quizzes = new ArrayList<>();
-        ArrayList<quiz> total_quiz_list = new ArrayList<>();
-
-        //Sort quizzes by building number
-        //LAZY SORT
-        for(int i = 0; i < total_quizzes; i++)
+        if(!sorted)
         {
-            switch (quiz_list[i].getBuildingNum())
+            sorted = false;
+            int A = 0;
+            int B = 1;
+            int total_quizzes = quiz_list.length;
+            int b1_size = 0;
+            int b2_size = 0;
+            int b3_size = 0;
+            int b4_size = 0;
+            int unknown_size = 0;
+
+            ArrayList<quiz> b1_quizzes = new ArrayList<>();
+            ArrayList<quiz> b2_quizzes = new ArrayList<>();
+            ArrayList<quiz> b3_quizzes = new ArrayList<>();
+            ArrayList<quiz> b4_quizzes = new ArrayList<>();
+            ArrayList<quiz> unknown_quizzes = new ArrayList<>();
+            ArrayList<quiz> total_quiz_list = new ArrayList<>();
+
+            //Sort quizzes by building number
+            //LAZY SORT
+            for(int i = 0; i < total_quizzes; i++)
             {
-                case 1:
-                    b1_quizzes.add(quiz_list[i]);
-                    b1_size += 1;
-                    continue;
-                case 2:
-                    b2_quizzes.add(quiz_list[i]);
-                    b2_size += 1;
-                    continue;
-                case 3:
-                    b3_quizzes.add(quiz_list[i]);
-                    b3_size += 1;
-                    continue;
-                case 4:
-                    b4_quizzes.add(quiz_list[i]);
-                    b4_size += 1;
-                    continue;
-                default :
-                    unknown_quizzes.add(quiz_list[i]);
-                    unknown_size += 1;
-                    continue;
+                switch (quiz_list[i].getBuildingNum())
+                {
+                    case 1:
+                        b1_quizzes.add(quiz_list[i]);
+                        b1_size += 1;
+                        continue;
+                    case 2:
+                        b2_quizzes.add(quiz_list[i]);
+                        b2_size += 1;
+                        continue;
+                    case 3:
+                        b3_quizzes.add(quiz_list[i]);
+                        b3_size += 1;
+                        continue;
+                    case 4:
+                        b4_quizzes.add(quiz_list[i]);
+                        b4_size += 1;
+                        continue;
+                    default :
+                        unknown_quizzes.add(quiz_list[i]);
+                        unknown_size += 1;
+                        continue;
+                }
             }
-        }
 
-        b2_start += (b1_start + b1_size);
-        b3_start += (b2_start + b2_size);
-        b4_start += (b3_start + b3_size);
+            b2_start += (b1_start + b1_size);
+            b3_start += (b2_start + b2_size);
+            b4_start += (b3_start + b3_size);
 
-        total_quiz_list.addAll(b1_quizzes);
-        total_quiz_list.addAll(b2_quizzes);
-        total_quiz_list.addAll(b3_quizzes);
-        total_quiz_list.addAll(b4_quizzes);
+            total_quiz_list.addAll(b1_quizzes);
+            total_quiz_list.addAll(b2_quizzes);
+            total_quiz_list.addAll(b3_quizzes);
+            total_quiz_list.addAll(b4_quizzes);
 
-        if(unknown_size > 0)
-        {
-            unknown_start = (b4_start + b4_size);
-        }
+            if(unknown_size > 0)
+            {
+                unknown_start = (b4_start + b4_size);
+            }
 
 
-        quiz_list = new quiz[total_quizzes];
-        for(int i = 0; i < total_quizzes; i++)
-        {
-            quiz_list[i] = total_quiz_list.get(i);
+            quiz_list = new quiz[total_quizzes];
+            for(int i = 0; i < total_quizzes; i++)
+            {
+                quiz_list[i] = total_quiz_list.get(i);
+            }
+
+            sorted = true;
         }
 
 

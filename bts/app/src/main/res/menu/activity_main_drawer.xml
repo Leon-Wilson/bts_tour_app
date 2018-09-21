@@ -32,10 +32,12 @@
             android:id="@+id/nav_quizzes"
             android:icon="@drawable/baseline_school_black_36dp"
             android:title="Quizzes" />
+        <!--
         <item
             android:id="@+id/nav_progress"
             android:icon="@drawable/baseline_track_changes_black_36dp"
             android:title="Progress" />
+            -->
         <item
             android:id="@+id/nav_contact"
             android:icon="@drawable/baseline_phone_black_36dp"

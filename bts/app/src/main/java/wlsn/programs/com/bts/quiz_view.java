@@ -1,13 +1,18 @@
 package wlsn.programs.com.bts;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.InputType;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
@@ -29,6 +34,7 @@ public class quiz_view extends Fragment {
     DatabaseReference user_quiz;
     DatabaseReference user_stats;
 
+    InputMethodManager imm;
     user current_user;
     View multi_choice;
     TextView mc_question;
@@ -95,6 +101,7 @@ public class quiz_view extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         String user_key = mAuth.getCurrentUser().getUid().toString();
         fDb = FirebaseDatabase.getInstance();
+        imm = (InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
 
 
 
@@ -122,6 +129,20 @@ public class quiz_view extends Fragment {
         sa_answer = (EditText) short_ans.findViewById(R.id.sa_answer_field);
         sa_submit_button = (Button) short_ans.findViewById(R.id.sa_submit);
         short_ans.setVisibility(View.GONE);
+
+
+        sa_answer.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
+                            InputMethodManager.HIDE_NOT_ALWAYS);
+                    //sa_answer.setInputType(InputType.TYPE_NULL);
+                    return true;
+                }
+                return false;
+            }
+        });
 
 
         re = view.findViewById(R.id.results_layout);
@@ -229,7 +250,7 @@ public class quiz_view extends Fragment {
                     {
                         current_quiz.total_correct += 1;
                         current_quiz.getQuestions()[current_question].setAlreadyCorrect(true);
-                        user_quiz.child("questions").child("question_" +String.valueOf(current_question)).child("already_correct").setValue(true);
+                        user_quiz.child("questions").child("question_" +String.valueOf(current_question + 1)).child("already_correct").setValue(true);
 
                         Snackbar.make(view, "Congratulations! That's a new correct answer!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
@@ -390,7 +411,7 @@ public class quiz_view extends Fragment {
                     {
                         current_quiz.total_correct += 1;
                         current_quiz.getQuestions()[current_question].setAlreadyCorrect(true);
-                        user_quiz.child("questions").child("question_" +String.valueOf(current_question)).child("already_correct").setValue(current_quiz.getQuestions()[current_question].alreadyCorrect());
+                        user_quiz.child("questions").child("question_" +String.valueOf(current_question + 1)).child("already_correct").setValue(current_quiz.getQuestions()[current_question].alreadyCorrect());
 
                         Snackbar.make(view, "Congratulations! That's a new correct answer!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();

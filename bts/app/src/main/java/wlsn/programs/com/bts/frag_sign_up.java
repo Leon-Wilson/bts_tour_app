@@ -179,11 +179,11 @@ public class frag_sign_up extends Fragment{
                                             trans.replace(R.id.content_frame, fragment);
                                             trans.commit();
                                         }
-                                        Toast.makeText(getContext(), "SUCCESS", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getContext(), "Welcome!", Toast.LENGTH_SHORT).show();
                                     }
                                     else
                                     {
-                                        Toast.makeText(getContext(), "FAILURE", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getContext(), "Sorry, something went wrong", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });

@@ -69,6 +69,10 @@ public class main extends AppCompatActivity
 
         if(current_user != null)
         {
+            /*if(current_user.getData().getQuizzes() != null)
+            {
+                current_user.getData().Load();
+            }*/
             if(current_user.getStats().propertyChangeSupport.getPropertyChangeListeners().length == 0) {
                 current_user.getStats().addPropertyChangeListener(listener);
             }
@@ -205,10 +209,10 @@ public class main extends AppCompatActivity
 
             }*/ else if (id == R.id.nav_quizzes) {
                 fragment = new frag_quiz();
-            } else if (id == R.id.nav_progress) {
+            }/* else if (id == R.id.nav_progress) {
 
-            } else if (id == R.id.nav_contact) {
-
+            }*/ else if (id == R.id.nav_contact) {
+                fragment = new frag_contact();
             } /*else if (id == R.id.nav_settings) {
 
             } else if (id == R.id.nav_help) {

@@ -24,6 +24,6 @@ public class frag_main extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //you can set the title for your toolbar here for different fragments different titles
-        getActivity().setTitle(R.string.nav_training);
+        getActivity().setTitle("Welcome");
     }
 }

@@ -159,7 +159,7 @@ public class frag_quiz extends Fragment {
         }
         else if (current_user.getData().getQuizzes().length == 1)
         {
-            //current_user.getData().Load();
+            current_user.getData().Load();
         }
         else
         {

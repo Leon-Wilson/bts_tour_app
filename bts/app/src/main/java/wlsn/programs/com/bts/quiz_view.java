@@ -160,6 +160,7 @@ public class quiz_view extends Fragment {
 
         user_quiz = fDb.getReference("users/" + user_key+"/quizzes/" + current_quiz.getName());
         user_stats = fDb.getReference("users/" + user_key+"/progress/");
+        getActivity().setTitle(current_quiz.getName());
         startQuiz();
 
         mc_choice_1.setOnClickListener(new View.OnClickListener() {

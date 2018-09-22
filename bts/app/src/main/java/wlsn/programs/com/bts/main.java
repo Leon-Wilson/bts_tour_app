@@ -69,10 +69,10 @@ public class main extends AppCompatActivity
 
         if(current_user != null)
         {
-            /*if(current_user.getData().getQuizzes() != null)
+            if(current_user.getData().getScripts() == null)
             {
                 current_user.getData().Load();
-            }*/
+            }
             if(current_user.getStats().propertyChangeSupport.getPropertyChangeListeners().length == 0) {
                 current_user.getStats().addPropertyChangeListener(listener);
             }
@@ -222,7 +222,8 @@ public class main extends AppCompatActivity
 
         if (id == R.id.nav_sign_out)
         {
-            mAuth.signOut();
+            FirebaseAuth.getInstance().signOut();
+            current_user = null;
             fragment = new frag_login();
         }
         if (fragment != null)

@@ -420,7 +420,7 @@ public class user_data {
                     temp_script_list[script_num] = new_script;
                     script_num++;
                 }
-                if(quiz_questions != null)
+                if(quiz_questions != null && user_quizzes.size() == 0)
                 {
 
                     quiz new_quiz = new quiz(quiz_name, quiz_questions);

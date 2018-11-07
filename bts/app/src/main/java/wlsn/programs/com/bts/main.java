@@ -31,6 +31,7 @@ public class main extends AppCompatActivity
 
     private FirebaseAuth mAuth;
     FirebaseUser firebase_user;
+    photos mphoto_list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public class main extends AppCompatActivity
         //current_user = user.getInstance();
         mAuth = FirebaseAuth.getInstance();
         stat_listener listener = new stat_listener();
-
+        mphoto_list = photos.getInstance();
 
         if(mAuth != null)
         {
@@ -230,6 +231,7 @@ public class main extends AppCompatActivity
         {
             FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
             trans.replace(R.id.content_frame,fragment);
+            trans.addToBackStack(null);
             trans.commit();
         }
 
@@ -277,7 +279,7 @@ public class main extends AppCompatActivity
 
             if (propertyChangeEvent.getPropertyName().equals("points_until_levelup"))
             {
-                progressBar.setMax(current_user.getStats().current_points);
+                progressBar.setMax(current_user.getStats().points_until_levelup);
                 progressBar.setProgress(current_user.getStats().current_points);
             }
 

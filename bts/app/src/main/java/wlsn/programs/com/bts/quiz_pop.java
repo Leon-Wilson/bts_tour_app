@@ -58,7 +58,7 @@ public class quiz_pop extends Activity {
             int quiz = extras.getInt("quiz");
             int starting_point = 0;
 
-            starting_point = current_user.getData().getStartingPos(building);
+            starting_point = current_user.getData().getStartingPos(building,false);
 
             selected_quiz = starting_point + quiz;
         }

@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -29,6 +30,8 @@ public class script_view extends Fragment {
 
     user current_user;
     private StorageReference mStorageRef;
+    photos mPhotos;
+
 
     public static script_view getInstance(int building, int script)
     {
@@ -54,40 +57,38 @@ public class script_view extends Fragment {
         //you can set the title for your toolbar here for different fragments different titles
         current_user = user.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
+        mPhotos = photos.getInstance();
 
         int building = getArguments().getInt("building");
         int script_num = getArguments().getInt("script");
         int starting_point = 0;
 
         //TODO: FIND BETTER SOLUTION (or at least make data ordered)
-        switch(building)
-        {
-            case 0:
-                starting_point = current_user.getData().getStartingPos(building);
-                break;
-            case 1:
-                starting_point = current_user.getData().getStartingPos(building);
-                break;
-            case 2:
-                starting_point = current_user.getData().getStartingPos(building);
-                break;
-            case 3:
-                starting_point = current_user.getData().getStartingPos(building);
-                break;
-            default:
-                break;
-        }
-        LinearLayout layout = (LinearLayout) view.findViewById(R.id.script_images);
 
-        for (int i = 0; i < 4; i++) {
-            ImageView image = new ImageView(this.getContext());
-            new DownloadImageTask(image).execute("https://firebasestorage.googleapis.com/v0/b/bts-tour.appspot.com/o/Tour%20Photos%2Fbuilding_one%2Fartist_series%2FArtist%20Series.jpg?alt=media&token=e6433f2b-bb27-48cf-bbff-643dd45567ed");
-            image.setLayoutParams(new android.view.ViewGroup.LayoutParams(1000, ViewGroup.LayoutParams.WRAP_CONTENT));
-            //image.setImageResource(R.drawable.fs_logo);
-            image.setScaleType(ImageView.ScaleType.FIT_XY);
-            layout.addView(image);
-        }
+                starting_point = current_user.getData().getStartingPos(building,true);
+
+        LinearLayout layout = (LinearLayout) view.findViewById(R.id.script_images);
         script current_script = current_user.getData().getScripts()[starting_point + script_num];
+
+        if(mPhotos.photo_map.containsKey(current_script.getKey()))
+        {
+            //Toast.makeText(getContext(), "FOUND THE IMAGES", Toast.LENGTH_SHORT).show();
+            for (int i = 0; i < mPhotos.photo_map.get(current_script.getKey()).size(); i++) {
+                ImageView image = new ImageView(this.getContext());
+
+                new DownloadImageTask(image).execute(mPhotos.photo_map.get(current_script.getKey()).get(i));
+                image.setLayoutParams(new android.view.ViewGroup.LayoutParams(1000, ViewGroup.LayoutParams.WRAP_CONTENT));
+                //image.setImageResource(R.drawable.fs_logo);
+                image.setScaleType(ImageView.ScaleType.FIT_XY);
+                image.setPadding(10,0,10,0);
+                layout.addView(image);
+            }
+        }
+        else
+        {
+            Toast.makeText(getContext(), "NO IMAGES FOUND", Toast.LENGTH_SHORT).show();
+        }
+        //script current_script = current_user.getData().getScripts()[starting_point + script_num];
         TextView script_name = view.findViewById(R.id.script_view_name);
         TextView script_des = view.findViewById(R.id.script_view_description);
         ListView script_important = view.findViewById(R.id.script_view_importants);
@@ -109,7 +110,7 @@ public class script_view extends Fragment {
 
     }
 
-    public class DownloadImageTask extends AsyncTask<String, Void, Bitmap>
+    /*public class DownloadImageTask extends AsyncTask<String, Void, Bitmap>
     {
         ImageView bmImage;
 
@@ -139,7 +140,7 @@ public class script_view extends Fragment {
         {
             bmImage.setImageBitmap(result);
         }
-    }
+    }*/
 
 }
 

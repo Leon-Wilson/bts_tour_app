@@ -20,7 +20,9 @@ public class user {
 
     public static user getInstance(String user_key)
     {
-        instance = new user(user_key);
+        if(instance == null) {
+            instance = new user(user_key);
+        }
         return instance;
     }
     private user_data data;

@@ -478,6 +478,7 @@ public class quiz_view extends Fragment {
                 {
                     FragmentTransaction trans = getActivity().getSupportFragmentManager().beginTransaction();
                     trans.replace(R.id.content_frame,fragment);
+                    trans.addToBackStack(null);
                     trans.commit();
                 }
             }

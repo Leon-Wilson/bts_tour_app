@@ -6,10 +6,12 @@ package wlsn.programs.com.bts;
 
 public class script {
     int building_num = -1;
+    String key = "";
     String name = "";
     String description = "";
     String[] degrees;
     String[] importance;
+    boolean script_list_image_set = false;
 
     public script(String name_, String description_, String[] degrees_, String[] importance_)
     {
@@ -32,5 +34,10 @@ public class script {
     public int getBuildingNum()
     {
         return building_num;
+    }
+    public void setKey(String _key){key = _key;}
+
+    public String getKey() {
+        return key;
     }
 }

@@ -65,6 +65,10 @@ public class frag_script extends Fragment {
         {
             current_user.getData().Load();
         }
+        else
+        {
+            current_user.getData().sortScripts();
+        }
         for(int i = 0; i < current_user.getData().getScripts().length;i++)
         {
             script temp_script = current_user.getData().getScripts()[i];
@@ -115,10 +119,17 @@ public class frag_script extends Fragment {
                 {
                     FragmentTransaction trans = getActivity().getSupportFragmentManager().beginTransaction();
                     trans.replace(R.id.content_frame,fragment);
+                    trans.addToBackStack(null);
                     trans.commit();
                 }
                 return true;
             }
         });
+
+        script_listings.expandGroup(0);
+        script_listings.expandGroup(1);
+        script_listings.expandGroup(2);
+        script_listings.expandGroup(3);
+
     }
 }

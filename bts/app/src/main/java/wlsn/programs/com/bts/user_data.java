@@ -61,14 +61,23 @@ public class user_data {
     int script_num = 0;
     int script_current = 1;
 
-    int b1_start=0;
-    int b2_start=0;
-    int b3_start=0;
-    int b4_start=0;
-    int unknown_start = 0;
+    int quiz_b1_start=0;
+    int quiz_b2_start=0;
+    int quiz_b3_start=0;
+    int quiz_b4_start=0;
+    int quiz_unknown_start = 0;
 
-    private boolean sorted = false;
-    private boolean trimmed = false;
+    int script_b1_start=0;
+    int script_b2_start=0;
+    int script_b3_start=0;
+    int script_b4_start=0;
+    int script_unknown_start = 0;
+
+    private boolean quiz_sorted = false;
+    private boolean quiz_trimmed = false;
+
+    private boolean script_sorted = false;
+    private boolean script_trimmed = false;
     public user_data()
     {
     fDatabase = FirebaseDatabase.getInstance();
@@ -417,6 +426,7 @@ public class user_data {
                 {
                     script new_script = new script(script_name,script_description,script_degrees,script_important);
                     new_script.setBuildingNum(building_num);
+                    new_script.setKey(quiz_name);
                     temp_script_list[script_num] = new_script;
                     script_num++;
                 }
@@ -469,43 +479,39 @@ public class user_data {
 
     public void trimScripts()
     {
-        int script_num = 0;
+        if(!script_trimmed) {
+            int script_num = 0;
 
-        for(int i = 0; i < temp_script_list.length;i++)
-        {
-            if(temp_script_list[i] == null)
-            {
-                script_num = i;
-                break;
+            for (int i = 0; i < temp_script_list.length; i++) {
+                if (temp_script_list[i] == null) {
+                    script_num = i;
+                    break;
+                }
             }
-        }
 
-        if(script_num == 0)
-        {
-            script_num = 1;
-            script_list = new script[script_num];
-            script_list[0] = new script("Sorry!","We couldn't find any scripts. Please reload the page",null,null);
-            script_list[0].setBuildingNum(1);
-        }
-        else if(script_num > temp_script_list.length)
-        {
-            script_num = 1;
-            script_list = new script[script_num];;
-            script_list[0] = new script("Sorry!","Something went wrong when gathering data. Please reload the page",null,null);
-        }
-        else
-        {
-            script_list = new script[script_num];
-            for(int j = 0; j < script_num; j++)
-            {
-                script_list[j] = temp_script_list[j];
+            if (script_num == 0) {
+                script_num = 1;
+                script_list = new script[script_num];
+                script_list[0] = new script("Sorry!", "We couldn't find any scripts. Please reload the page", null, null);
+                script_list[0].setBuildingNum(1);
+            } else if (script_num > temp_script_list.length) {
+                script_num = 1;
+                script_list = new script[script_num];
+                ;
+                script_list[0] = new script("Sorry!", "Something went wrong when gathering data. Please reload the page", null, null);
+            } else {
+                script_list = new script[script_num];
+                for (int j = 0; j < script_num; j++) {
+                    script_list[j] = temp_script_list[j];
+                }
+                script_trimmed = true;
             }
         }
     }
 
     public void trimQuizzes()
     {
-        if(!trimmed) {
+        if(!quiz_trimmed) {
             int quiz_num = 0;
 
             for (int i = 0; i < temp_quiz_list.length; i++) {
@@ -530,7 +536,7 @@ public class user_data {
                 for (int j = 0; j < quiz_num; j++) {
                     quiz_list[j] = temp_quiz_list[j];
                 }
-                trimmed = true;
+                quiz_trimmed = true;
             }
         }
     }
@@ -594,9 +600,9 @@ public class user_data {
 
     public void sortQuizzes()
     {
-        if(!sorted)
+        if(!quiz_sorted)
         {
-            sorted = false;
+            quiz_sorted = false;
             int A = 0;
             int B = 1;
             int total_quizzes = quiz_list.length;
@@ -642,9 +648,9 @@ public class user_data {
                 }
             }
 
-            b2_start += (b1_start + b1_size);
-            b3_start += (b2_start + b2_size);
-            b4_start += (b3_start + b3_size);
+            quiz_b2_start += (quiz_b1_start + b1_size);
+            quiz_b3_start += (quiz_b2_start + b2_size);
+            quiz_b4_start += (quiz_b3_start + b3_size);
 
             total_quiz_list.addAll(b1_quizzes);
             total_quiz_list.addAll(b2_quizzes);
@@ -653,7 +659,7 @@ public class user_data {
 
             if(unknown_size > 0)
             {
-                unknown_start = (b4_start + b4_size);
+                quiz_unknown_start = (quiz_b4_start + b4_size);
             }
 
 
@@ -663,28 +669,121 @@ public class user_data {
                 quiz_list[i] = total_quiz_list.get(i);
             }
 
-            sorted = true;
+            quiz_sorted = true;
         }
 
 
     }
 
+    public void sortScripts()
+    {
+        if(!script_sorted)
+        {
+            script_sorted = false;
+            int A = 0;
+            int B = 1;
+            int total_scripts = script_list.length;
+            int b1_size = 0;
+            int b2_size = 0;
+            int b3_size = 0;
+            int b4_size = 0;
+            int unknown_size = 0;
+
+            ArrayList<script> b1_scripts = new ArrayList<>();
+            ArrayList<script> b2_scripts = new ArrayList<>();
+            ArrayList<script> b3_scripts = new ArrayList<>();
+            ArrayList<script> b4_scripts = new ArrayList<>();
+            ArrayList<script> unknown_scripts = new ArrayList<>();
+            ArrayList<script> total_script_list = new ArrayList<>();
+
+            //Sort quizzes by building number
+            //LAZY SORT
+            for(int i = 0; i < total_scripts; i++)
+            {
+                switch (script_list[i].getBuildingNum())
+                {
+                    case 1:
+                        b1_scripts.add(script_list[i]);
+                        b1_size += 1;
+                        continue;
+                    case 2:
+                        b2_scripts.add(script_list[i]);
+                        b2_size += 1;
+                        continue;
+                    case 3:
+                        b3_scripts.add(script_list[i]);
+                        b3_size += 1;
+                        continue;
+                    case 4:
+                        b4_scripts.add(script_list[i]);
+                        b4_size += 1;
+                        continue;
+                    default :
+                        unknown_scripts.add(script_list[i]);
+                        unknown_size += 1;
+                        continue;
+                }
+            }
+
+            script_b2_start += (script_b1_start + b1_size);
+            script_b3_start += (script_b2_start + b2_size);
+            script_b4_start += (script_b3_start + b3_size);
+
+            total_script_list.addAll(b1_scripts);
+            total_script_list.addAll(b2_scripts);
+            total_script_list.addAll(b3_scripts);
+            total_script_list.addAll(b4_scripts);
+
+            if(unknown_size > 0)
+            {
+                script_unknown_start = (script_b4_start + b4_size);
+            }
+
+
+            script_list = new script[total_scripts];
+            for(int i = 0; i < total_scripts; i++)
+            {
+                script_list[i] = total_script_list.get(i);
+            }
+
+            script_sorted = true;
+        }
+
+
+    }
     public HashMap<String, quiz> getUserQuizzes() {
         return user_quizzes;
     }
 
-    public int getStartingPos(int building)
+    public int getStartingPos(int building, boolean scripts)
     {
+
         switch(building)
         {
             case 0:
-                return b1_start;
+                if(scripts)
+                {
+                    return script_b1_start;
+                }
+                return quiz_b1_start;
             case 1:
-                return b2_start;
+                if(scripts)
+                {
+                    return script_b2_start;
+                }
+                return quiz_b2_start;
             case 2:
-                return b3_start;
+                if(scripts)
+                {
+                    return script_b3_start;
+                }
+                return quiz_b3_start;
             case 3:
-                return b4_start;
+                if(scripts)
+                {
+                    return script_b4_start;
+                }
+                return quiz_b4_start;
             default:
                 return 0;
         }

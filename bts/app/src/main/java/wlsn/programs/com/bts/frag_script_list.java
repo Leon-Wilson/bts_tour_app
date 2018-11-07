@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class frag_script_list extends BaseExpandableListAdapter {
     Context context;
     ArrayList<String> buildings;
     HashMap<String,ArrayList<Object>> scripts;
+    photos mPhotos;
 
     public frag_script_list(Context context_, ArrayList<String> buildings_, HashMap<String,ArrayList<Object>> scripts_)
     {
@@ -83,7 +85,13 @@ public class frag_script_list extends BaseExpandableListAdapter {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = layoutInflater.inflate(R.layout.script_list_building_child,null);
         }
-
+        /*mPhotos = photos.getInstance();
+        if(mPhotos.photo_map.containsKey(current_script.getKey()) && !current_script.script_list_image_set) {
+            ImageView script_image = view.findViewById(R.id.script_list_image);
+            new DownloadImageTask(script_image).execute(mPhotos.photo_map.get(current_script.getKey()).get(0));
+            script_image.setScaleType(ImageView.ScaleType.FIT_XY);
+            current_script.script_list_image_set = true;
+        }*/
         TextView script_name = view.findViewById(R.id.script_list_name);
         script_name.setText(current_script.getName());
 
